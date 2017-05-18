@@ -38,8 +38,8 @@ public class PBMaxClauseCardConstrDataStructure extends
     private static final long serialVersionUID = 1L;
 
     public PBMaxClauseCardConstrDataStructure() {
-        super(new UnitBinaryHTClausePBConstructor(),
-                new MinCardPBConstructor(), new MaxWatchPBConstructor());
+        super(new @Gen UnitBinaryHTClausePBConstructor(),
+                new @Gen MinCardPBConstructor(), new @Gen MaxWatchPBConstructor());
     }
 
 }

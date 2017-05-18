@@ -69,7 +69,7 @@ public class OriginalBinaryClause extends BinaryClause {
      */
     public static OriginalBinaryClause brandNewClause(
             UnitPropagationListener s, ILits voc, IVecInt literals) {
-        OriginalBinaryClause c = new OriginalBinaryClause(literals, voc);
+        OriginalBinaryClause c = new @Gen OriginalBinaryClause(literals, voc);
         c.register();
         return c;
     }

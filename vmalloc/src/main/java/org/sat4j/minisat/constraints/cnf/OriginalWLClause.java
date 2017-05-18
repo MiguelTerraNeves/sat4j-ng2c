@@ -77,7 +77,7 @@ public final class OriginalWLClause extends WLClause {
      */
     public static OriginalWLClause brandNewClause(UnitPropagationListener s,
             ILits voc, IVecInt literals) {
-        OriginalWLClause c = new OriginalWLClause(literals, voc);
+        OriginalWLClause c = new @Gen OriginalWLClause(literals, voc);
         c.register();
         return c;
     }

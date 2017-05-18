@@ -140,15 +140,15 @@ public final class MinWatchCardPB extends MinWatchCard implements PBConstr {
                     throw new ContradictionException();
                 }
             }
-            return new UnitClausesPB(ps);
+            return new @Gen UnitClausesPB(ps);
         }
 
         // constraint is now instanciated
         MinWatchCardPB retour = null;
         if (normalized) {
-            retour = new MinWatchCardPB(voc, ps, mydegree);
+            retour = new @Gen MinWatchCardPB(voc, ps, mydegree);
         } else {
-            retour = new MinWatchCardPB(voc, ps, moreThan, mydegree);
+            retour = new @Gen MinWatchCardPB(voc, ps, moreThan, mydegree);
         }
 
         if (retour.bigDegree.signum() <= 0) {

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.sat4j.core.Vec;
 import org.sat4j.core.VecInt;
 import org.sat4j.pb.IPBSolver;
 import org.sat4j.pb.SolverFactory;
@@ -42,7 +43,10 @@ public class PseudoBooleanSolver extends ConstraintSolver {
          * Creates an instance of a constraint.
          * @param lits The literals in the constraint.
          */
-        Constraint(IVecInt lits) { this.lits = lits; }
+        Constraint(IVecInt lits) {
+            this.lits = new @Gen VecInt(lits.size());
+            lits.copyTo(this.lits);
+        }
         
         /**
          * Retrieves the literals in the constraint.
@@ -76,9 +80,10 @@ public class PseudoBooleanSolver extends ConstraintSolver {
          * @param lits The constraint's literals.
          * @param rhs The constraint's right-hand side.
          */
-        ConstraintWithRHS(IVecInt lits, BigInteger rhs) {
-            super(lits);
-            this.rhs = rhs;
+        ConstraintWithCoeffsAndRHS(IVecInt lits, IVec<BigInteger> coeffs, BigInteger rhs) {
+            super(lits, rhs);
+            this.coeffs = new @Gen Vec<BigInteger>(coeffs.size());
+            coeffs.copyTo(this.coeffs);
         }
         
         /**
@@ -338,13 +343,13 @@ public class PseudoBooleanSolver extends ConstraintSolver {
      * removed by providing the {@link IConstr} object, returned by the add methods, to the
      * {@link IPBSolver#removeConstr(IConstr)} method.
      */
-    private Map<ConstraintID, IConstr> rem_map = new HashMap<ConstraintID, IConstr>();
+    private Map<ConstraintID, IConstr> rem_map = new @Gen HashMap<ConstraintID, IConstr>();
     
     /**
      * Map used to store constraints that SAT4J satisfied by unit propagation.
      * @see #removeConstraint(ConstraintID)
      */
-    private Map<ConstraintID, Constraint> unit_sat_constraints = new HashMap<ConstraintID, Constraint>();
+    private Map<ConstraintID, Constraint> unit_sat_constraints = new @Gen HashMap<ConstraintID, Constraint>();
     
     /**
      * Creates an instance of a Pseudo-Boolean Satisfaction solver.
@@ -384,17 +389,17 @@ public class PseudoBooleanSolver extends ConstraintSolver {
 
     @Override
     public ConstraintID addRemovableExactly(IVecInt lits, int rhs) throws ContradictionException {
-        return storeRemovable(solver.addExactly(lits, rhs), new Exactly(lits, rhs));
+        return storeRemovable(solver.addExactly(lits, rhs), new @Gen Exactly(lits, rhs));
     }
 
     @Override
     public ConstraintID addRemovableAtMost(IVecInt lits, int rhs) throws ContradictionException {
-        return storeRemovable(solver.addAtMost(lits, rhs), new AtMost(lits, rhs));
+        return storeRemovable(solver.addAtMost(lits, rhs), new @Gen AtMost(lits, rhs));
     }
 
     @Override
     public ConstraintID addRemovableAtLeast(IVecInt lits, int rhs) throws ContradictionException {
-        return storeRemovable(solver.addAtLeast(lits, rhs), new AtLeast(lits, rhs));
+        return storeRemovable(solver.addAtLeast(lits, rhs), new @Gen AtLeast(lits, rhs));
     }
 
     @Override
@@ -415,21 +420,21 @@ public class PseudoBooleanSolver extends ConstraintSolver {
     @Override
     public ConstraintID addRemovableEqual(IVecInt lits, IVec<BigInteger> coeffs, BigInteger rhs)
             throws ContradictionException {
-        return storeRemovable(solver.addExactly(lits, coeffs, rhs), new Equal(lits, coeffs, rhs));
+        return storeRemovable(solver.addExactly(lits, coeffs, rhs), new @Gen Equal(lits, coeffs, rhs));
     }
 
     @Override
     public ConstraintID addRemovableGreaterOrEqual(IVecInt lits, IVec<BigInteger> coeffs, BigInteger rhs)
             throws ContradictionException {
         return storeRemovable(solver.addPseudoBoolean(lits, coeffs, true, rhs),
-                              new GreaterOrEqual(lits, coeffs, rhs));
+                              new @Gen GreaterOrEqual(lits, coeffs, rhs));
     }
 
     @Override
     public ConstraintID addRemovableLessOrEqual(IVecInt lits, IVec<BigInteger> coeffs, BigInteger rhs)
             throws ContradictionException {
         return storeRemovable(solver.addPseudoBoolean(lits, coeffs, false, rhs),
-                              new LessOrEqual(lits, coeffs, rhs));
+                              new @Gen LessOrEqual(lits, coeffs, rhs));
     }
 
     @Override
@@ -452,7 +457,7 @@ public class PseudoBooleanSolver extends ConstraintSolver {
 
     @Override
     public ConstraintID addRemovableClause(IVecInt lits) throws ContradictionException {
-        return storeRemovable(solver.addClause(lits), new Clause(lits));
+        return storeRemovable(solver.addClause(lits), new @Gen Clause(lits));
     }
 
     @Override

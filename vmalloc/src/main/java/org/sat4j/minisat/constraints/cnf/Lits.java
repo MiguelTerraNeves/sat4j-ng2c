@@ -80,27 +80,27 @@ public final class Lits implements Serializable, ILits {
         assert nvar >= 0;
         // let some space for unused 0 indexer.
         int nvars = nvar + 1;
-        boolean[] npool = new boolean[nvars];
+        boolean[] npool = new @Gen boolean[nvars];
         System.arraycopy(this.pool, 0, npool, 0, this.pool.length);
         this.pool = npool;
 
-        int[] nlevel = new int[nvars];
+        int[] nlevel = new @Gen int[nvars];
         System.arraycopy(this.level, 0, nlevel, 0, this.level.length);
         this.level = nlevel;
 
-        IVec<Propagatable>[] nwatches = new IVec[2 * nvars];
+        IVec<Propagatable>[] nwatches = new @Gen IVec[2 * nvars];
         System.arraycopy(this.watches, 0, nwatches, 0, this.watches.length);
         this.watches = nwatches;
 
-        IVec<Undoable>[] nundos = new IVec[nvars];
+        IVec<Undoable>[] nundos = new @Gen IVec[nvars];
         System.arraycopy(this.undos, 0, nundos, 0, this.undos.length);
         this.undos = nundos;
 
-        Constr[] nreason = new Constr[nvars];
+        Constr[] nreason = new @Gen Constr[nvars];
         System.arraycopy(this.reason, 0, nreason, 0, this.reason.length);
         this.reason = nreason;
 
-        boolean[] newFalsified = new boolean[2 * nvars];
+        boolean[] newFalsified = new @Gen boolean[2 * nvars];
         System.arraycopy(this.falsified, 0, newFalsified, 0,
                 this.falsified.length);
         this.falsified = newFalsified;
@@ -120,9 +120,9 @@ public final class Lits implements Serializable, ILits {
         if (!this.pool[var]) {
             this.realnVars++;
             this.pool[var] = true;
-            this.watches[var << 1] = new Vec<Propagatable>();
-            this.watches[var << 1 | 1] = new Vec<Propagatable>();
-            this.undos[var] = new Vec<Undoable>();
+            this.watches[var << 1] = new @Gen Vec<Propagatable>();
+            this.watches[var << 1 | 1] = new @Gen Vec<Propagatable>();
+            this.undos[var] = new @Gen Vec<Undoable>();
             this.level[var] = -1;
             this.falsified[var << 1] = false; // because truthValue[var] is
             // UNDEFINED

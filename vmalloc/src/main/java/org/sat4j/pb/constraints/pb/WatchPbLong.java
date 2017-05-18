@@ -96,7 +96,7 @@ public abstract class WatchPbLong implements Propagatable, Constr, Undoable,
 	/** Constructor used for learnt constraints. */
 	WatchPbLong(IDataStructurePB mpb) {
 		int size = mpb.size();
-		this.lits = new int[size];
+		this.lits = new @Gen int[size];
 		BigInteger[] bigCoefs = new BigInteger[size];
 		mpb.buildConstraintFromMapPb(this.lits, bigCoefs);
 		this.coefs = toLong(bigCoefs);
@@ -123,7 +123,7 @@ public abstract class WatchPbLong implements Propagatable, Constr, Undoable,
 	}
 
 	public static long[] toLong(BigInteger[] bigValues) {
-		long[] res = new long[bigValues.length];
+		long[] res = new @Gen long[bigValues.length];
 		for (int i = 0; i < res.length; i++) {
 			res[i] = bigValues[i].longValue();
 		}
@@ -652,7 +652,7 @@ public abstract class WatchPbLong implements Propagatable, Constr, Undoable,
 		}
 	}
 
-	private final Comparator<Integer> levelBased = new Comparator<Integer>() {
+	private final Comparator<Integer> levelBased = new @Gen Comparator<Integer>() {
 
 		public int compare(Integer o1, Integer o2) {
 			return voc.getLevel(o1) - voc.getLevel(o2);

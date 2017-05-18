@@ -50,9 +50,9 @@ public class Glucose21Restarts implements RestartStrategy {
      */
     private static final long serialVersionUID = 1L;
 
-    private final CircularBuffer bufferLBD = new CircularBuffer(50);
+    private final CircularBuffer bufferLBD = new @Gen CircularBuffer(50);
 
-    private final CircularBuffer bufferTrail = new CircularBuffer(5000);
+    private final CircularBuffer bufferTrail = new @Gen CircularBuffer(5000);
 
     private long sumOfAllLBD = 0;
 

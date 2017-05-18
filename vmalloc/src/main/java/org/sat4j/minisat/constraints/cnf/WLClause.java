@@ -64,7 +64,7 @@ public abstract class WLClause implements Propagatable, Constr, Serializable {
      *            A VecInt that WILL BE EMPTY after calling that method.
      */
     public WLClause(IVecInt ps, ILits voc) {
-        this.lits = new int[ps.size()];
+        this.lits = new @Gen int[ps.size()];
         ps.moveTo(this.lits);
         assert ps.size() == 0;
         this.voc = voc;

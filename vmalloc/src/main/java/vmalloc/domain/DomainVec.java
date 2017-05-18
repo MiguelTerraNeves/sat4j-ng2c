@@ -18,7 +18,7 @@ public abstract class DomainVec<Type> implements IVec<Type> {
     /**
      * The actual vector object used to contain domain objects.
      */
-    private IVec<Type> vec = new Vec<Type>();
+    private IVec<Type> vec = new @Gen Vec<Type>();
     
     /**
      * Creates an instance of a domain object vector.
@@ -35,7 +35,7 @@ public abstract class DomainVec<Type> implements IVec<Type> {
      * Creates an instance of domain object vector with the contents of an array.
      * @param array The array.
      */
-    public DomainVec(Type[] array) { this.vec = new Vec<Type>(array); }
+    public DomainVec(Type[] array) { this.vec = new @Gen Vec<Type>(array); }
     
     /* 
      * Implementation of all methods in the IVec interface. All calls redirected to the actual Vec

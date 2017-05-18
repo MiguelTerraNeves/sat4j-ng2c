@@ -22,7 +22,7 @@ public class Job {
      */
     public Job(int id) {
         this.id = id;
-        this.vms = new VirtualMachineVec();
+        this.vms = new @Gen VirtualMachineVec();
     }
     
     /**

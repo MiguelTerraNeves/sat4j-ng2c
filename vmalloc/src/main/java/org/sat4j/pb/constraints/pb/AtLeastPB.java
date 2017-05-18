@@ -55,13 +55,13 @@ public final class AtLeastPB extends AtLeast implements PBConstr {
             IVecInt ps, int n) throws ContradictionException {
         int degree = niceParameters(s, voc, ps, n);
         if (degree == 0) {
-            return new UnitClausesPB(ps);
+            return new @Gen UnitClausesPB(ps);
         }
         return atLeastNew(voc, ps, degree);
     }
 
     public static AtLeastPB atLeastNew(ILits voc, IVecInt ps, int n) {
-        AtLeastPB atleast = new AtLeastPB(voc, ps, n);
+        AtLeastPB atleast = new @Gen AtLeastPB(voc, ps, n);
         atleast.register();
         return atleast;
     }

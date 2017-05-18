@@ -41,7 +41,7 @@ public class UnitClauses implements Constr {
     protected final int[] literals;
 
     public UnitClauses(IVecInt values) {
-        this.literals = new int[values.size()];
+        this.literals = new @Gen int[values.size()];
         values.copyTo(this.literals);
     }
 

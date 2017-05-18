@@ -52,7 +52,7 @@ public class VarOrderHeapObjective extends VarOrderHeap implements
     private ObjectiveFunction obj;
 
     public VarOrderHeapObjective() {
-        this(new PhaseInLastLearnedClauseSelectionStrategy());
+        this(new @Gen PhaseInLastLearnedClauseSelectionStrategy());
     }
 
     public VarOrderHeapObjective(IPhaseSelectionStrategy strategy) {

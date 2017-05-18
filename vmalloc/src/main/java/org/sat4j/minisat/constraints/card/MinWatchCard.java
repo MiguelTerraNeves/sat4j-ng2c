@@ -123,7 +123,7 @@ public class MinWatchCard implements Propagatable, Constr, Undoable,
         }
 
         // On copie les litt?raux de la contrainte
-        this.lits = new int[ps.size()];
+        this.lits = new @Gen int[ps.size()];
         ps.moveTo(this.lits);
 
         // On normalise la contrainte au sens de Barth
@@ -152,7 +152,7 @@ public class MinWatchCard implements Propagatable, Constr, Undoable,
         this.moreThan = ATLEAST;
 
         // On copie les litt?raux de la contrainte
-        this.lits = new int[ps.size()];
+        this.lits = new @Gen int[ps.size()];
         ps.moveTo(this.lits);
 
     }
@@ -287,11 +287,11 @@ public class MinWatchCard implements Propagatable, Constr, Undoable,
                     throw new ContradictionException();
                 }
             }
-            return new UnitClauses(ps);
+            return new @Gen UnitClauses(ps);
         }
 
         // La contrainte est maintenant cr??e
-        MinWatchCard retour = new MinWatchCard(voc, ps, moreThan, mydegree);
+        MinWatchCard retour = new @Gen MinWatchCard(voc, ps, moreThan, mydegree);
 
         if (retour.degree <= 0) {
             return null;

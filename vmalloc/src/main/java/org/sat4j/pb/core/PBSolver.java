@@ -71,7 +71,7 @@ public abstract class PBSolver extends Solver<PBDataStructureFactory> implements
     public PBSolver(LearningStrategy<PBDataStructureFactory> learner,
             PBDataStructureFactory dsf, IOrder order, RestartStrategy restarter) {
         super(learner, dsf, order, restarter);
-        this.stats = new PBSolverStats();
+        this.stats = new @Gen PBSolverStats();
         initStats(this.stats);
     }
 
@@ -79,7 +79,7 @@ public abstract class PBSolver extends Solver<PBDataStructureFactory> implements
             PBDataStructureFactory dsf, SearchParams params, IOrder order,
             RestartStrategy restarter) {
         super(learner, dsf, params, order, restarter);
-        this.stats = new PBSolverStats();
+        this.stats = new @Gen PBSolverStats();
         initStats(this.stats);
     }
 
@@ -202,12 +202,12 @@ public abstract class PBSolver extends Solver<PBDataStructureFactory> implements
     /**
      * @since 2.1
      */
-    public final LearnedConstraintsDeletionStrategy objectiveFunctionBased = new LearnedConstraintsDeletionStrategy() {
+    public final LearnedConstraintsDeletionStrategy objectiveFunctionBased = new @Gen LearnedConstraintsDeletionStrategy() {
 
         private static final long serialVersionUID = 1L;
         private boolean[] inObjectiveFunction;
 
-        private final ConflictTimer clauseManagement = new ConflictTimerAdapter(
+        private final ConflictTimer clauseManagement = new @Gen ConflictTimerAdapter(
                 1000) {
             private static final long serialVersionUID = 1L;
             private int nbconflict = 0;
@@ -267,7 +267,7 @@ public abstract class PBSolver extends Solver<PBDataStructureFactory> implements
         }
 
         public void init() {
-            this.inObjectiveFunction = new boolean[nVars() + 1];
+            this.inObjectiveFunction = new @Gen boolean[nVars() + 1];
             if (PBSolver.this.objf == null) {
                 throw new IllegalStateException(
                         "The strategy does not make sense if there is no objective function");

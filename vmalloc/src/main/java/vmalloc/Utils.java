@@ -176,21 +176,31 @@ public class Utils {
         }
         return long_vec;
     }
-    
-    public static Map<Integer, Integer> makePhysicalMachineIDtoIndexMap(PhysicalMachineVec pms) {
-        Map<Integer, Integer> pm_id_to_idx = new HashMap<Integer, Integer>();
+
+    public static Map<Integer, Integer> makePhysicalMachineIDtoIndexMap_core(PhysicalMachineVec pms, Map<Integer, Integer> pm_id_to_idx) {
         for (int i = 0; i < pms.size(); ++i) {
-            pm_id_to_idx.put(new Integer(pms.get(i).getID()), new Integer(i));
+            pm_id_to_idx.put(new @Gen Integer(pms.get(i).getID()), new @Gen Integer(i));
         }
         return pm_id_to_idx;
     }
+    public static Map<Integer, Integer> makePhysicalMachineIDtoIndexMap(PhysicalMachineVec pms) {
+        return makePhysicalMachineIDtoIndexMap_core(pms, new HashMap<Integer, Integer>());
+    }
+    public static Map<Integer, Integer> makePhysicalMachineIDtoIndexMap_Gen(PhysicalMachineVec pms) {
+        return makePhysicalMachineIDtoIndexMap_core(pms, new @Gen HashMap<Integer, Integer>());
+    }
     
-    public static Map<String, Integer> makeVirtualMachineIDtoIndexMap(VirtualMachineVec vms) {
-        Map<String, Integer> vm_id_to_idx = new HashMap<String, Integer>();
+    public static Map<String, Integer> makeVirtualMachineIDtoIndexMap_core(VirtualMachineVec vms, Map<String, Integer> vm_id_to_idx) {
         for (int i = 0; i < vms.size(); ++i) {
-            vm_id_to_idx.put(vms.get(i).getID(), new Integer(i));
+            vm_id_to_idx.put(vms.get(i).getID(), new @Gen Integer(i));
         }
         return vm_id_to_idx;
+    }
+    public static Map<String, Integer> makeVirtualMachineIDtoIndexMap(VirtualMachineVec vms) {
+        return makeVirtualMachineIDtoIndexMap_core(vms, new HashMap<String, Integer>());
+    }
+    public static Map<String, Integer> makeVirtualMachineIDtoIndexMap_Gen(VirtualMachineVec vms) {
+        return makeVirtualMachineIDtoIndexMap_core(vms, new @Gen HashMap<String, Integer>());
     }
     
     public static boolean allocationIsValid(PhysicalMachineVec pms,

@@ -24,6 +24,7 @@ public class GIAAlloc extends MultiObjectiveConstraintBasedAllocAlgorithm {
     @Override
     public void allocate() {
         System.out.println("c Initializing");
+        System.newAllocGen();
         ConstraintSolver solver = null;
         try {
             solver = buildSolver();
@@ -36,12 +37,14 @@ public class GIAAlloc extends MultiObjectiveConstraintBasedAllocAlgorithm {
         initializeObjectiveFunctions();
         printElapsedTime();
         int enum_threshold = getEnumerationThreshold();
-        IVec<ConstraintID> to_remove = new Vec<ConstraintID>();
-        IVec<ConstraintID> hash_ids = new Vec<ConstraintID>();
+        IVec<ConstraintID> to_remove = new @Gen Vec<ConstraintID>();
+        IVec<ConstraintID> hash_ids = new @Gen Vec<ConstraintID>();
         if (getHashType() != HashFunctionType.NONE) {
             hash_ids = setHashFunction(solver, flattenLitVectors(flattenJobVars(this.job_vars)));
         }
         int nsols_in_cell = 0;
+        int perm_gen = System.getAllocGen();
+        System.newAllocGen();
         System.out.println("c Searching for a Pareto optimal solution");
         while (true) {
             checkSAT(solver);
@@ -52,11 +55,14 @@ public class GIAAlloc extends MultiObjectiveConstraintBasedAllocAlgorithm {
             else if (solver.isSatisfiable()) {
                 try {
                     ++nsols_in_cell;
+                    int current_gen = System.getAllocGen();
+                    System.setAllocGen(perm_gen);
                     saveSolution(modelToAllocation(solver,
                                                    this.instance.getPhysicalMachines(),
                                                    this.instance.getJobs(),
                                                    this.job_vars),
                                  true);
+                    System.setAllocGen(current_gen);
                     BigDecimal energy_cost = computeEnergyConsumption(solver);
                     BigDecimal wastage = computeResourceWastage(solver);
                     to_remove.push(solver.addRemovableLessOrEqual(this.energy_lits,
@@ -74,6 +80,7 @@ public class GIAAlloc extends MultiObjectiveConstraintBasedAllocAlgorithm {
                     }
                     // Add constraints that force the next solution to dominate the current one
                     // FIXME: could be cleaner
+                    System.setAllocGen(perm_gen);
                     IVecInt or_lits = new VecInt();
                     int new_var = newVar(solver);
                     this.energy_lits.push(new_var);
@@ -103,10 +110,15 @@ public class GIAAlloc extends MultiObjectiveConstraintBasedAllocAlgorithm {
                         assert(this.migration_lits.size() == this.migration_coeffs.size());
                     }
                     solver.addClause(or_lits);
+                    System.setAllocGen(current_gen);
                 }
                 catch (ContradictionException e) {
                     solver.removeConstraints(to_remove);
                     to_remove.clear();
+                    printElapsedTime();
+                    System.out.println("c Searching for another Pareto optimal solution");
+                    // TODO: close epoch
+                    System.newAllocGen();
                 }
             }
             else if (to_remove.size() > 0) {
@@ -114,6 +126,8 @@ public class GIAAlloc extends MultiObjectiveConstraintBasedAllocAlgorithm {
                 to_remove.clear();
                 printElapsedTime();
                 System.out.println("c Searching for another Pareto optimal solution");
+                // TODO: close epoch
+                System.newAllocGen();
             }
             else if (getHashType() == HashFunctionType.NONE) {
                 System.out.println("c Done");

@@ -65,7 +65,7 @@ public class ConstraintID implements Comparable<ConstraintID> {
      * @return A fresh unique constraint id.
      */
     public static ConstraintID makeFresh() {
-        ConstraintID new_id = new ConstraintID(id_gen);
+        ConstraintID new_id = new @Gen ConstraintID(id_gen);
         id_gen = id_gen.add(BigInteger.ONE);
         return new_id;
     }

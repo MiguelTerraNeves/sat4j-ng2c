@@ -48,7 +48,7 @@ public abstract class MultiObjectiveConstraintBasedAllocAlgorithm extends Constr
     public MultiObjectiveConstraintBasedAllocAlgorithm(VMCwMProblem instance, boolean break_symms) {
         super(instance, break_symms);
         this.wastage_coeffs_cache =
-                new HashMap<Pair<BigInteger,BigInteger>, Pair<IVec<BigDecimal>,IVec<BigDecimal> > >();
+                new @Gen HashMap<Pair<BigInteger,BigInteger>, Pair<IVec<BigDecimal>,IVec<BigDecimal> > >();
     }
     
 
@@ -71,9 +71,9 @@ public abstract class MultiObjectiveConstraintBasedAllocAlgorithm extends Constr
     
     private IVec<BigDecimal> indexWiseSubtraction(double[] a1, double[] a2) {
         assert(a1.length == a2.length);
-        IVec<BigDecimal> sub_array = new Vec<BigDecimal>(a1.length);
+        IVec<BigDecimal> sub_array = new @Gen Vec<BigDecimal>(a1.length);
         for (int i = 0; i < a1.length; ++i) {
-            sub_array.push(new BigDecimal(a1[i] - a2[i]));
+            sub_array.push(new @Gen BigDecimal(a1[i] - a2[i]));
         }
         return sub_array;
     }
@@ -151,7 +151,7 @@ public abstract class MultiObjectiveConstraintBasedAllocAlgorithm extends Constr
     
     protected ConstraintSolver buildSolver() throws ContradictionException {
         System.out.println("c Building formula");
-        ConstraintSolver solver = new PseudoBooleanSolver();
+        ConstraintSolver solver = new @Gen PseudoBooleanSolver();
         this.pm_vars = newVarsForPMs(solver, this.instance.getPhysicalMachines());
         this.job_vars = newVarsForJobs(solver,
                                        this.instance.getPhysicalMachines(),
@@ -206,16 +206,16 @@ public abstract class MultiObjectiveConstraintBasedAllocAlgorithm extends Constr
     private void initializeEnergyObjectiveFunction() {
         VirtualMachineVec vms = this.instance.getJobs().flattenJobs();
         IVec<IVecInt> vm_vars = flattenJobVars(this.job_vars);
-        this.energy_lits = new VecInt();
-        this.energy_coeffs = new Vec<BigDecimal>();
+        this.energy_lits = new @Gen VecInt();
+        this.energy_coeffs = new @Gen Vec<BigDecimal>();
         for (int i = 0; i < this.instance.getPhysicalMachines().size(); ++i) {
             PhysicalMachine pm = this.instance.getPhysicalMachines().get(i);
-            this.energy_coeffs.push(new BigDecimal(pm.getIdleConsumption()));
+            this.energy_coeffs.push(new @Gen BigDecimal(pm.getIdleConsumption()));
             this.energy_lits.push(this.pm_vars.get(i));
             int energy_range = pm.getMaxConsumption() - pm.getIdleConsumption();
             double[] norm_cpus = getNormalizedCPURequirements(vms, pm);
             for (int j = 0; j < vms.size(); ++j) {
-                this.energy_coeffs.push(new BigDecimal(energy_range * norm_cpus[j]));
+                this.energy_coeffs.push(new @Gen BigDecimal(energy_range * norm_cpus[j]));
                 this.energy_lits.push(vm_vars.get(j).get(i));
             }
         }
@@ -227,8 +227,8 @@ public abstract class MultiObjectiveConstraintBasedAllocAlgorithm extends Constr
         VirtualMachineVec vms = this.instance.getJobs().flattenJobs();
         IVec<IVecInt> aux_vm_plus_vars = flattenJobVars(this.aux_job_plus_vars);
         IVec<IVecInt> aux_vm_minus_vars = flattenJobVars(this.aux_job_minus_vars);
-        this.wastage_lits = new VecInt();
-        this.wastage_coeffs = new Vec<BigDecimal>();
+        this.wastage_lits = new @Gen VecInt();
+        this.wastage_coeffs = new @Gen Vec<BigDecimal>();
         for (int i = 0; i < this.instance.getPhysicalMachines().size(); ++i) {
             PhysicalMachine pm = this.instance.getPhysicalMachines().get(i);
             Pair<IVec<BigDecimal>,IVec<BigDecimal> > coeff_vec_pair = getWastageCoefficients(pm, vms);
@@ -253,8 +253,8 @@ public abstract class MultiObjectiveConstraintBasedAllocAlgorithm extends Constr
         Map<Integer, Integer> pm_id_to_idx =
                 Utils.makePhysicalMachineIDtoIndexMap(this.instance.getPhysicalMachines());
         Map<String, Integer> vm_id_to_idx = Utils.makeVirtualMachineIDtoIndexMap(vms);
-        this.migration_lits = new VecInt();
-        this.migration_coeffs = new Vec<BigInteger>();
+        this.migration_lits = new @Gen VecInt();
+        this.migration_coeffs = new @Gen Vec<BigInteger>();
         for (int i = 0; i < this.instance.getMappings().size(); ++i) {
             VirtualMachine vm = this.instance.getMappings().get(i).getVirtualMachine();
             PhysicalMachine pm = this.instance.getMappings().get(i).getPhysicalMachine();

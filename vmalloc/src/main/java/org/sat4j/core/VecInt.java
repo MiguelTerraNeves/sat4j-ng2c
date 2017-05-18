@@ -231,7 +231,7 @@ public final class VecInt implements IVecInt {
     }
 
     public VecInt(int size) {
-        this.myarray = new int[size];
+        this.myarray = new @Gen int[size];
     }
 
     /**
@@ -258,7 +258,7 @@ public final class VecInt implements IVecInt {
      *            the integer to fill the vector with
      */
     public VecInt(int size, int pad) {
-        this.myarray = new int[size];
+        this.myarray = new @Gen int[size];
         for (int i = 0; i < size; i++) {
             this.myarray[i] = pad;
         }
@@ -306,7 +306,7 @@ public final class VecInt implements IVecInt {
 
     public void ensure(int nsize) {
         if (nsize >= this.myarray.length) {
-            int[] narray = new int[Math.max(nsize, this.nbelem * 2)];
+            int[] narray = new @Gen int[Math.max(nsize, this.nbelem * 2)];
             System.arraycopy(this.myarray, 0, narray, 0, this.nbelem);
             this.myarray = narray;
         }

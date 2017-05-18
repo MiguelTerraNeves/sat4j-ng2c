@@ -48,7 +48,7 @@ public class UnitBinaryWLClauseConstructor implements IClauseConstructor {
             return null;
         }
         if (v.size() == 1) {
-            return new UnitClause(v.last());
+            return new @Gen UnitClause(v.last());
         }
         if (v.size() == 2) {
             return OriginalBinaryClause.brandNewClause(solver, voc, v);
@@ -58,12 +58,12 @@ public class UnitBinaryWLClauseConstructor implements IClauseConstructor {
 
     public Constr constructLearntClause(ILits voc, IVecInt literals) {
         if (literals.size() == 1) {
-            return new UnitClause(literals.last());
+            return new @Gen UnitClause(literals.last());
         }
         if (literals.size() == 2) {
-            return new LearntBinaryClause(literals, voc);
+            return new @Gen LearntBinaryClause(literals, voc);
         }
-        return new LearntWLClause(literals, voc);
+        return new @Gen LearntWLClause(literals, voc);
     }
 
 }

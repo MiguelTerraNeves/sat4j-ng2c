@@ -97,7 +97,7 @@ public final class Vec<T> implements IVec<T> {
      */
     @SuppressWarnings("unchecked")
     public Vec(int size) {
-        this.myarray = (T[]) new Object[size];
+        this.myarray = (T[]) new @Gen Object[size];
     }
 
     /**
@@ -111,7 +111,7 @@ public final class Vec<T> implements IVec<T> {
      */
     @SuppressWarnings("unchecked")
     public Vec(int size, T pad) {
-        this.myarray = (T[]) new Object[size];
+        this.myarray = (T[]) new @Gen Object[size];
         for (int i = 0; i < size; i++) {
             this.myarray[i] = pad;
         }
@@ -173,7 +173,7 @@ public final class Vec<T> implements IVec<T> {
     @SuppressWarnings("unchecked")
     public void ensure(final int nsize) {
         if (nsize >= this.myarray.length) {
-            T[] narray = (T[]) new Object[Math.max(nsize, this.nbelem * 2)];
+            T[] narray = (T[]) new @Gen Object[Math.max(nsize, this.nbelem * 2)];
             System.arraycopy(this.myarray, 0, narray, 0, this.nbelem);
             this.myarray = narray;
         }

@@ -73,7 +73,7 @@ public class AtLeast implements Propagatable, Constr, Undoable, Serializable {
         this.maxUnsatisfied = ps.size() - degree;
         this.voc = voc;
         this.counter = 0;
-        this.lits = new int[ps.size()];
+        this.lits = new @Gen int[ps.size()];
         ps.moveTo(this.lits);
     }
 
@@ -130,9 +130,9 @@ public class AtLeast implements Propagatable, Constr, Undoable, Serializable {
             IVecInt ps, int n) throws ContradictionException {
         int degree = niceParameters(s, voc, ps, n);
         if (degree == 0) {
-            return new UnitClauses(ps);
+            return new @Gen UnitClauses(ps);
         }
-        Constr constr = new AtLeast(voc, ps, degree);
+        Constr constr = new @Gen AtLeast(voc, ps, degree);
         constr.register();
         return constr;
     }

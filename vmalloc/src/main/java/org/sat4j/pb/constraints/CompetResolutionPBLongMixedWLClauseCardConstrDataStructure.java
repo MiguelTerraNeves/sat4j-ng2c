@@ -38,8 +38,8 @@ public class CompetResolutionPBLongMixedWLClauseCardConstrDataStructure extends
     private static final long serialVersionUID = 1L;
 
     public CompetResolutionPBLongMixedWLClauseCardConstrDataStructure() {
-        super(new UnitBinaryWLClauseConstructor(), new MinCardConstructor(),
-                new MaxLongWatchPBConstructor());
+        super(new @Gen UnitBinaryWLClauseConstructor(), new @Gen MinCardConstructor(),
+                new @Gen MaxLongWatchPBConstructor());
     }
 
 }

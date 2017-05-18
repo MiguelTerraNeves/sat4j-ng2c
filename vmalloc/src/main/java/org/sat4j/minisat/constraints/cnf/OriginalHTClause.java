@@ -81,7 +81,7 @@ public class OriginalHTClause extends HTClause {
      */
     public static OriginalHTClause brandNewClause(UnitPropagationListener s,
             ILits voc, IVecInt literals) {
-        OriginalHTClause c = new OriginalHTClause(literals, voc);
+        OriginalHTClause c = new @Gen OriginalHTClause(literals, voc);
         c.register();
         return c;
     }

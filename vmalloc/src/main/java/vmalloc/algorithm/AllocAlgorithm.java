@@ -306,14 +306,14 @@ public abstract class AllocAlgorithm {
     protected AllocAlgorithm(VMCwMProblem instance, VMCwMProblem.Encoding encoding) {
         this.instance = instance;
         this.instance.setEncoding(encoding);
-        this.solutions = new NondominatedPopulation();
-        this.results = new LinkedList<NondominatedPopulation>();
+        this.solutions = new @Gen NondominatedPopulation();
+        this.results = new @Gen LinkedList<NondominatedPopulation>();
         ProblemFactory.getInstance().addProvider(
-                new VWCwMProblemProvider(this.instance.getPhysicalMachines(),
-                                         this.instance.getJobs(),
-                                         this.instance.getMappings(),
-                                         this.instance.getMaxMigrationPercentile(),
-                                         encoding));
+                new @Gen VWCwMProblemProvider(this.instance.getPhysicalMachines(),
+                                              this.instance.getJobs(),
+                                              this.instance.getMappings(),
+                                              this.instance.getMaxMigrationPercentile(),
+                                              encoding));
     }
 
     public void setTimeout(long timeout) { this.timeout = timeout; }

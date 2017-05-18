@@ -81,7 +81,7 @@ public abstract class HTClause implements Propagatable, Constr, Serializable {
         this.tail = ps.last();
         final int size = ps.size() - 2;
         assert size > 0;
-        this.middleLits = new int[size];
+        this.middleLits = new @Gen int[size];
         System.arraycopy(ps.toArray(), 1, this.middleLits, 0, size);
         ps.clear();
         assert ps.size() == 0;

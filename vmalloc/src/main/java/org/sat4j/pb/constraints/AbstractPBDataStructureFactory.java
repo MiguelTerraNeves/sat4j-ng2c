@@ -223,13 +223,13 @@ public abstract class AbstractPBDataStructureFactory extends
 
     @Override
     protected ILits createLits() {
-        return new Lits();
+        return new @Gen Lits();
     }
 
     @Override
     public Constr createUnregisteredCardinalityConstraint(IVecInt literals,
             int degree) {
-        return new AtLeast(getVocabulary(), literals, degree);
+        return new @Gen AtLeast(getVocabulary(), literals, degree);
     }
 
 }

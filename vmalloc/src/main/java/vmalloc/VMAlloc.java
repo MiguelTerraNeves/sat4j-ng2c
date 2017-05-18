@@ -140,9 +140,10 @@ public class VMAlloc {
     }
     
     public static void main(String[] args) {
+        System.newAllocGen();
         Clock.getInstance().reset();
         System.out.println("c Parsing");
-        Options options = new Options();
+        Options options = new @Gen Options();
         options.addOption("a", "algorithm", true,
                           "Choose the allocation algorithm. Options are Linear Search (" +
                           LINEAR_SEARCH + "), Minimum Correction Set (" + MCS + "), " +
@@ -225,10 +226,10 @@ public class VMAlloc {
         options.addOption("cmr", "cross-migration-rate", true,
                           "Set the cross migration rate for the " + BBO + " algorithm. Default is " +
                           DEFAULT_BBO_CROSS_MIGRATION_RATE + ".");
-        CommandLineParser cl_parser = new DefaultParser();
+        CommandLineParser cl_parser = new @Gen DefaultParser();
         try {
             CommandLine cl = cl_parser.parse(options, args);
-            InputParser in_parser = new InputParser(cl.getArgs()[0]);
+            InputParser in_parser = new @Gen InputParser(cl.getArgs()[0]);
             in_parser.parse();
             System.out.println("c Parsing time: " + Clock.getInstance().getElapsed() + " seconds");
             PhysicalMachineVec orig_pms = in_parser.getPhysicalMachines();
@@ -240,7 +241,7 @@ public class VMAlloc {
             JobVec jobs = orig_jobs;
             MappingVec mappings = orig_mappings;
             double max_mig_percentile = orig_max_mig_percentile;
-            ProblemStatistics stats = new ProblemStatistics(pms, jobs, mappings, max_mig_percentile);
+            ProblemStatistics stats = new @Gen ProblemStatistics(pms, jobs, mappings, max_mig_percentile);
             stats.printStatistics();
             boolean break_symms = false;
             if (cl.hasOption("s")) {
@@ -255,14 +256,14 @@ public class VMAlloc {
                 System.out.println("c Discarding anti-colocation constraints");
                 discardAntiColocationConstraints(jobs);
             }
-            VMCwMProblem instance = new VMCwMProblem(pms, jobs, mappings, max_mig_percentile);
+            VMCwMProblem instance = new @Gen VMCwMProblem(pms, jobs, mappings, max_mig_percentile);
             if (cl.hasOption("r")) {
                 AllocAlgorithm reduction_alg = null;
                 if (!cl.hasOption("ra") || cl.getOptionValue("ra").equals(BFD)) {
-                    reduction_alg = new BestFitDecreasingAlloc(instance);
+                    reduction_alg = new @Gen BestFitDecreasingAlloc(instance);
                 }
                 else if (cl.getOptionValue("ra").equals(FFD)) {
-                    reduction_alg = new FirstFitDecreasingAlloc(instance);
+                    reduction_alg = new @Gen FirstFitDecreasingAlloc(instance);
                 }
                 else {
                     printHelpMessage(options);
@@ -270,7 +271,7 @@ public class VMAlloc {
                 }
                 System.out.println("c Applying heuristic reduction");
                 HeuristicReducer reducer =
-                        new HeuristicReducer(pms, jobs, mappings, max_mig_percentile, reduction_alg);
+                        new @Gen HeuristicReducer(pms, jobs, mappings, max_mig_percentile, reduction_alg);
                 try {
                     reducer.apply();
                     System.out.println("c Solution using " + reducer.getPhysicalMachines().size() +
@@ -282,7 +283,7 @@ public class VMAlloc {
                     }
                     System.out.println("c Elapsed time: " + Clock.getInstance().getElapsed() +
                                        " seconds");
-                    stats = new ProblemStatistics(pms, jobs, mappings, max_mig_percentile);
+                    stats = new @Gen ProblemStatistics(pms, jobs, mappings, max_mig_percentile);
                     stats.printStatistics();
                 }
                 catch (HeuristicReductionFailedException e) {
@@ -291,40 +292,40 @@ public class VMAlloc {
             }
             AllocAlgorithm alloc = null;
             if (!cl.hasOption("a") || cl.getOptionValue("a").equals(WBO)) {
-                alloc = new WBOAlloc(instance, break_symms);
+                alloc = new @Gen WBOAlloc(instance, break_symms);
             }
             else if (cl.getOptionValue("a").equals(LINEAR_SEARCH)) {
-                alloc = new LinearSearchAlloc(instance, break_symms);
+                alloc = new @Gen LinearSearchAlloc(instance, break_symms);
             }
             else if (cl.getOptionValue("a").equals(PBO)) {
-                alloc = new PBOAlloc(instance, break_symms);
+                alloc = new @Gen PBOAlloc(instance, break_symms);
             }
             else if (cl.getOptionValue("a").equals(PARETO_CLD)) {
-                alloc = new ParetoCLD(instance, break_symms);
+                alloc = new @Gen ParetoCLD(instance, break_symms);
             }
             else if (cl.getOptionValue("a").equals(PARETO_LBX)) {
-                alloc = new ParetoLBX(instance, break_symms);
+                alloc = new @Gen ParetoLBX(instance, break_symms);
             }
             else if (cl.getOptionValue("a").equals(FFD)) {
-                alloc = new FirstFitDecreasingAlloc(instance);
+                alloc = new @Gen FirstFitDecreasingAlloc(instance);
             }
             else if (cl.getOptionValue("a").equals(BFD)) {
-                alloc = new BestFitDecreasingAlloc(instance);
+                alloc = new @Gen BestFitDecreasingAlloc(instance);
             }
             else if (cl.getOptionValue("a").equals(HASH) ||
                      cl.getOptionValue("a").equals(GIA) ||
                      cl.getOptionValue("a").equals(MCS)) {
                 ConstraintBasedAllocAlgorithm cb_alloc = null;
                 if (cl.getOptionValue("a").equals(HASH)) {
-                    cb_alloc = new HashEnumAlloc(instance, break_symms);
+                    cb_alloc = new @Gen HashEnumAlloc(instance, break_symms);
                     System.out.println("c ========= HE Configuration =========");
                 }
                 else if (cl.getOptionValue("a").equals(GIA)) {
-                    cb_alloc = new GIAAlloc(instance, break_symms);
+                    cb_alloc = new @Gen GIAAlloc(instance, break_symms);
                     System.out.println("c ======== GIA Configuration =========");
                 }
                 else {
-                    cb_alloc = new MCSAlloc(instance, break_symms);
+                    cb_alloc = new @Gen MCSAlloc(instance, break_symms);
                     System.out.println("c ======== MCS Configuration =========");
                 }
                 String hash_type = cl.getOptionValue("ht", GLOBAL_HASH);
@@ -349,7 +350,7 @@ public class VMAlloc {
                 // Evolutionary approaches
                 EvolutionaryAllocAlgorithm ea_alloc = null;
                 if (cl.getOptionValue("a").equals(DE)) {
-                    DEAlloc de_alloc = new DEAlloc(instance);
+                    DEAlloc de_alloc = new @Gen DEAlloc(instance);
                     double cr = Double.parseDouble(cl.getOptionValue("cr", DEFAULT_DE_CROSSOVER_RATE));
                     double ss = Double.parseDouble(cl.getOptionValue("ss", DEFAULT_DE_STEP_SIZE));
                     de_alloc.setCrossoverRate(cr);
@@ -360,7 +361,7 @@ public class VMAlloc {
                     System.out.println("c  Step size:            " + ss);
                 }
                 else if (cl.getOptionValue("a").equals(PSO)) {
-                    PSOAlloc pso_alloc = new PSOAlloc(instance);
+                    PSOAlloc pso_alloc = new @Gen PSOAlloc(instance);
                     System.out.println("c ========= PSO Configuration ========");
                     double mr = Double.parseDouble(cl.getOptionValue("mr", DEFAULT_PSO_MUTATION_RATE));
                     double di = Double.parseDouble(cl.getOptionValue("di",
@@ -375,7 +376,7 @@ public class VMAlloc {
                     System.out.println("c  Archive size:         " + as);
                 }
                 else if (cl.getOptionValue("a").equals(BBO)) {
-                    BBOAlloc bbo_alloc = new BBOAlloc(instance);
+                    BBOAlloc bbo_alloc = new @Gen BBOAlloc(instance);
                     System.out.println("c ========= BBO Configuration ========");
                     double mr = Double.parseDouble(cl.getOptionValue("mr", DEFAULT_BBO_MUTATION_RATE));
                     double ir = Double.parseDouble(
@@ -394,7 +395,7 @@ public class VMAlloc {
                                        ((mappings.size() > 0) ? "6" : "4"));
                 }
                 else if (cl.getOptionValue("a").equals(GA)) {
-                    GAAlloc ga_alloc = new GAAlloc(instance);
+                    GAAlloc ga_alloc = new @Gen GAAlloc(instance);
                     double mr = Double.parseDouble(cl.getOptionValue("mr", DEFAULT_GA_MUTATION_RATE));
                     double cr = Double.parseDouble(cl.getOptionValue("cr", DEFAULT_GA_CROSSOVER_RATE));
                     ga_alloc.setMutationRate(mr);
@@ -405,7 +406,7 @@ public class VMAlloc {
                     System.out.println("c  Mutation rate:        " + mr);
                 }
                 else if (cl.getOptionValue("a").equals(GGA)) {
-                    GGAAlloc gga_alloc = new GGAAlloc(instance);
+                    GGAAlloc gga_alloc = new @Gen GGAAlloc(instance);
                     double mr = Double.parseDouble(cl.getOptionValue("mr", DEFAULT_GGA_MUTATION_RATE));
                     double cr = Double.parseDouble(cl.getOptionValue("cr", DEFAULT_GGA_CROSSOVER_RATE));
                     gga_alloc.setMutationRate(mr);
@@ -416,7 +417,7 @@ public class VMAlloc {
                     System.out.println("c  Mutation rate:        " + mr);
                 }
                 else if (cl.getOptionValue("a").equals(DBEA)) {
-                    ea_alloc = new DBEAAlloc(instance);
+                    ea_alloc = new @Gen DBEAAlloc(instance);
                     System.out.println("c ======== DBEA Configuration ========");
                 }
                 else {
@@ -472,6 +473,7 @@ public class VMAlloc {
                 analyze(alloc, cl.getOptionValue("ap"));
                 return;
             }
+            System.setAllocGen(0);
             if (cl.hasOption("ms")) {
                 alloc.allocateMultipleSeeds(Integer.parseInt(cl.getOptionValue("ms")));
             }

@@ -47,7 +47,7 @@ public class VirtualMachine extends Machine {
         this.job_id = job_id;
         this.vm_idx = vm_idx;
         this.anti_coloc = anti_coloc;
-        this.unallowed_pms = new PhysicalMachineVec();
+        this.unallowed_pms = new @Gen PhysicalMachineVec();
     }
     
     /**

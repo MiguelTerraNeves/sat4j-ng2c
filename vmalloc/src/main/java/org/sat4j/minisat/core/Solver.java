@@ -86,12 +86,12 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
     /**
      * Set of original constraints.
      */
-    protected final IVec<Constr> constrs = new Vec<Constr>();
+    protected final IVec<Constr> constrs = new @Gen Vec<Constr>();
 
     /**
      * Set of learned constraints.
      */
-    protected final IVec<Constr> learnts = new Vec<Constr>();
+    protected final IVec<Constr> learnts = new @Gen Vec<Constr>();
 
     /**
      * Increment for clause activity.
@@ -112,12 +112,12 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
     /**
      * variable assignments (literals) in chronological order.
      */
-    protected final IVecInt trail = new VecInt();
+    protected final IVecInt trail = new @Gen VecInt();
 
     /**
      * position of the decision levels on the trail.
      */
-    protected final IVecInt trailLim = new VecInt();
+    protected final IVecInt trailLim = new @Gen VecInt();
 
     /**
      * position of assumptions before starting the search.
@@ -130,9 +130,9 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     private IOrder order;
 
-    private final ActivityComparator comparator = new ActivityComparator();
+    private final ActivityComparator comparator = new @Gen ActivityComparator();
 
-    private SolverStats stats = new SolverStats();
+    private SolverStats stats = new @Gen SolverStats();
 
     private LearningStrategy<D> learner;
 
@@ -146,17 +146,17 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     private SearchParams params;
 
-    private final IVecInt __dimacs_out = new VecInt();
+    private final IVecInt __dimacs_out = new @Gen VecInt();
 
-    protected SearchListener slistener = new VoidTracing();
+    protected SearchListener slistener = new @Gen VoidTracing();
 
     private RestartStrategy restarter;
 
-    private final Map<String, Counter> constrTypes = new HashMap<String, Counter>();
+    private final Map<String, Counter> constrTypes = new @Gen HashMap<String, Counter>();
 
     private boolean isDBSimplificationAllowed = false;
 
-    private final IVecInt learnedLiterals = new VecInt();
+    private final IVecInt learnedLiterals = new @Gen VecInt();
 
     private boolean verbose = false;
 
@@ -197,7 +197,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     public Solver(LearningStrategy<D> learner, D dsf, IOrder order,
             RestartStrategy restarter) {
-        this(learner, dsf, new SearchParams(), order, restarter);
+        this(learner, dsf, new @Gen SearchParams(), order, restarter);
     }
 
     public Solver(LearningStrategy<D> learner, D dsf, SearchParams params,
@@ -541,9 +541,9 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     private boolean[] mseen = new boolean[0];
 
-    private final IVecInt mpreason = new VecInt();
+    private final IVecInt mpreason = new @Gen VecInt();
 
-    private final IVecInt moutLearnt = new VecInt();
+    private final IVecInt moutLearnt = new @Gen VecInt();
 
     /**
      * @throws TimeoutException
@@ -710,7 +710,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         return outLearnt;
     }
 
-    public static final ISimplifier NO_SIMPLIFICATION = new ISimplifier() {
+    public static final ISimplifier NO_SIMPLIFICATION = new @Gen ISimplifier() {
         /**
          * 
          */
@@ -725,7 +725,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         }
     };
 
-    public final ISimplifier SIMPLE_SIMPLIFICATION = new ISimplifier() {
+    public final ISimplifier SIMPLE_SIMPLIFICATION = new @Gen ISimplifier() {
         /**
          * 
          */
@@ -741,7 +741,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         }
     };
 
-    public final ISimplifier EXPENSIVE_SIMPLIFICATION = new ISimplifier() {
+    public final ISimplifier EXPENSIVE_SIMPLIFICATION = new @Gen ISimplifier() {
 
         /**
          * 
@@ -758,7 +758,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         }
     };
 
-    public final ISimplifier EXPENSIVE_SIMPLIFICATION_WLONLY = new ISimplifier() {
+    public final ISimplifier EXPENSIVE_SIMPLIFICATION_WLONLY = new @Gen ISimplifier() {
 
         /**
          * 
@@ -858,9 +858,9 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         this.stats.reducedliterals += i - j;
     }
 
-    private final IVecInt analyzetoclear = new VecInt();
+    private final IVecInt analyzetoclear = new @Gen VecInt();
 
-    private final IVecInt analyzestack = new VecInt();
+    private final IVecInt analyzestack = new @Gen VecInt();
 
     // Taken from MiniSAT 1.14
     private void expensiveSimplification(IVecInt conflictToReduce) {
@@ -1035,7 +1035,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         this.claInc *= CLAUSE_RESCALE_FACTOR;
     }
 
-    private final IVec<Propagatable> watched = new Vec<Propagatable>();
+    private final IVec<Propagatable> watched = new @Gen Vec<Propagatable>();
 
     /**
      * @return null if not conflict is found, else a conflicting constraint.
@@ -1156,7 +1156,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         }
     }
 
-    private final Pair analysisResult = new Pair();
+    private final Pair analysisResult = new @Gen Pair();
 
     private boolean[] userbooleanmodel;
 
@@ -1288,8 +1288,8 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
     protected void analyzeAtRootLevel(Constr conflict) {
     }
 
-    private final IVecInt implied = new VecInt();
-    private final IVecInt decisions = new VecInt();
+    private final IVecInt implied = new @Gen VecInt();
+    private final IVecInt decisions = new @Gen VecInt();
 
     private int[] fullmodel;
 
@@ -1556,10 +1556,10 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
     }
 
     public final LearnedConstraintsDeletionStrategy fixedSize(final int maxsize) {
-        return new LearnedConstraintsDeletionStrategy() {
+        return new @Gen LearnedConstraintsDeletionStrategy() {
 
             private static final long serialVersionUID = 1L;
-            private final ConflictTimer aTimer = new ConflictTimerAdapter(
+            private final ConflictTimer aTimer = new @Gen ConflictTimerAdapter(
                     maxsize) {
 
                 private static final long serialVersionUID = 1L;
@@ -1627,7 +1627,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     private LearnedConstraintsDeletionStrategy activityBased(
             final ConflictTimer timer) {
-        return new LearnedConstraintsDeletionStrategy() {
+        return new @Gen LearnedConstraintsDeletionStrategy() {
 
             private static final long serialVersionUID = 1L;
 
@@ -1687,7 +1687,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         };
     }
 
-    private final ConflictTimer memoryTimer = new ConflictTimerAdapter(500) {
+    private final ConflictTimer memoryTimer = new @Gen ConflictTimerAdapter(500) {
         private static final long serialVersionUID = 1L;
         final long memorybound = Runtime.getRuntime().freeMemory() / 10;
 
@@ -1755,7 +1755,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             final int howmany = Solver.this.voc.nVars();
             // wall = constrs.size() > 10000 ? constrs.size() : 10000;
             if (this.flags.length <= howmany) {
-                this.flags = new int[howmany + 1];
+                this.flags = new @Gen int[howmany + 1];
             }
             this.flag = 0;
             this.clauseManagement.reset();
@@ -1818,7 +1818,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     }
 
-    private final ConflictTimer lbdTimer = new ConflictTimerAdapter(1000) {
+    private final ConflictTimer lbdTimer = new @Gen ConflictTimerAdapter(1000) {
         private static final long serialVersionUID = 1L;
         private int nbconflict = 0;
         private static final int MAX_CLAUSE = 5000;
@@ -1852,7 +1852,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
     /**
      * @since 2.1
      */
-    public final LearnedConstraintsDeletionStrategy glucose = new Glucose2LCDS(
+    public final LearnedConstraintsDeletionStrategy glucose = new @Gen Glucose2LCDS(
             this.lbdTimer);
 
     protected LearnedConstraintsDeletionStrategy learnedConstraintsDeletionStrategy = this.glucose;
@@ -1883,7 +1883,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         boolean alreadylaunched = this.conflictCount != null;
         final int howmany = this.voc.nVars();
         if (this.mseen.length <= howmany) {
-            this.mseen = new boolean[howmany + 1];
+            this.mseen = new @Gen boolean[howmany + 1];
         }
         this.trail.ensure(howmany);
         this.trailLim.ensure(howmany);
@@ -1965,7 +1965,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         this.learner.init();
 
         if (!alreadylaunched) {
-            this.conflictCount = new ConflictTimerContainer();
+            this.conflictCount = new @Gen ConflictTimerContainer();
             this.conflictCount.add(this.restarter);
             this.conflictCount.add(this.learnedConstraintsDeletionStrategy
                     .getTimer());
@@ -1975,13 +1975,13 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             if (!global || this.timer == null) {
                 firstTimeGlobal = true;
                 this.undertimeout = true;
-                TimerTask stopMe = new TimerTask() {
+                TimerTask stopMe = new @Gen TimerTask() {
                     @Override
                     public void run() {
                         Solver.this.undertimeout = false;
                     }
                 };
-                this.timer = new Timer(true);
+                this.timer = new @Gen Timer(true);
                 this.timer.schedule(stopMe, this.timeout);
 
             }
@@ -1989,7 +1989,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             if (!global || !alreadylaunched) {
                 firstTimeGlobal = true;
                 this.undertimeout = true;
-                ConflictTimer conflictTimeout = new ConflictTimerAdapter(
+                ConflictTimer conflictTimeout = new @Gen ConflictTimerAdapter(
                         (int) this.timeout) {
                     private static final long serialVersionUID = 1L;
 
@@ -2070,7 +2070,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             String type = it.next().getClass().getName();
             Counter count = learntTypes.get(type);
             if (count == null) {
-                learntTypes.put(type, new Counter());
+                learntTypes.put(type, new @Gen Counter());
             } else {
                 count.inc();
             }
@@ -2156,7 +2156,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
                     .get("ignored satisfied constraints");
             if (count == null) {
                 this.constrTypes.put("ignored satisfied constraints",
-                        new Counter());
+                        new @Gen Counter());
             } else {
                 count.inc();
             }
@@ -2165,7 +2165,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             String type = constr.getClass().getName();
             Counter count = this.constrTypes.get(type);
             if (count == null) {
-                this.constrTypes.put(type, new Counter());
+                this.constrTypes.put(type, new @Gen Counter());
             } else {
                 count.inc();
             }
@@ -2502,10 +2502,10 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             this.learnedConstraintsDeletionStrategy = activityBased(timer);
             break;
         case LBD:
-            this.learnedConstraintsDeletionStrategy = new GlucoseLCDS(timer);
+            this.learnedConstraintsDeletionStrategy = new @Gen GlucoseLCDS(timer);
             break;
         case LBD2:
-            this.learnedConstraintsDeletionStrategy = new Glucose2LCDS(timer);
+            this.learnedConstraintsDeletionStrategy = new @Gen Glucose2LCDS(timer);
             break;
         }
         if (this.conflictCount != null) {
@@ -2525,10 +2525,10 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             this.learnedConstraintsDeletionStrategy = activityBased(aTimer);
             break;
         case LBD:
-            this.learnedConstraintsDeletionStrategy = new GlucoseLCDS(aTimer);
+            this.learnedConstraintsDeletionStrategy = new @Gen GlucoseLCDS(aTimer);
             break;
         case LBD2:
-            this.learnedConstraintsDeletionStrategy = new Glucose2LCDS(aTimer);
+            this.learnedConstraintsDeletionStrategy = new @Gen Glucose2LCDS(aTimer);
             break;
         }
         if (this.conflictCount != null) {
@@ -2544,7 +2544,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         this.keepHot = keepHot;
     }
 
-    private final Comparator<Integer> dimacsLevel = new Comparator<Integer>() {
+    private final Comparator<Integer> dimacsLevel = new @Gen Comparator<Integer>() {
         public int compare(Integer i1, Integer i2) {
             return voc.getLevel(Math.abs(i2)) - voc.getLevel(Math.abs(i1));
         }

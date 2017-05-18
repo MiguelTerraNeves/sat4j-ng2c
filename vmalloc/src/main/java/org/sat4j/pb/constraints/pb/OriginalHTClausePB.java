@@ -83,7 +83,7 @@ public final class OriginalHTClausePB extends OriginalHTClause implements
      */
     public static OriginalHTClausePB brandNewClause(UnitPropagationListener s,
             ILits voc, IVecInt literals) {
-        OriginalHTClausePB c = new OriginalHTClausePB(literals, voc);
+        OriginalHTClausePB c = new @Gen OriginalHTClausePB(literals, voc);
         c.register();
         return c;
     }

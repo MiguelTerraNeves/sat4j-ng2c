@@ -83,7 +83,7 @@ public final class OriginalBinaryClausePB extends OriginalBinaryClause
      */
     public static OriginalBinaryClausePB brandNewClause(
             UnitPropagationListener s, ILits voc, IVecInt literals) {
-        OriginalBinaryClausePB c = new OriginalBinaryClausePB(literals, voc);
+        OriginalBinaryClausePB c = new @Gen OriginalBinaryClausePB(literals, voc);
         c.register();
         return c;
     }

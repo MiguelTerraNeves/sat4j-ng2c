@@ -99,8 +99,8 @@ public abstract class WatchPb implements IWatchPb, Propagatable, Undoable,
 	/** Constructor used for learnt constraints. */
 	WatchPb(IDataStructurePB mpb) {
 		int size = mpb.size();
-		this.lits = new int[size];
-		this.coefs = new BigInteger[size];
+		this.lits = new @Gen int[size];
+		this.coefs = new @Gen BigInteger[size];
 		mpb.buildConstraintFromMapPb(this.lits, this.coefs);
 
 		this.degree = mpb.getDegree();

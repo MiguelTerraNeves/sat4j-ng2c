@@ -50,7 +50,7 @@ public class CircularBuffer implements Serializable {
     private boolean full = false;
 
     public CircularBuffer(int capacity) {
-        this.values = new int[capacity];
+        this.values = new @Gen int[capacity];
     }
 
     public void push(int value) {

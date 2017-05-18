@@ -76,7 +76,7 @@ public class VarOrderHeap implements IOrder, Serializable {
     protected IPhaseSelectionStrategy phaseStrategy;
 
     public VarOrderHeap() {
-        this(new PhaseInLastLearnedClauseSelectionStrategy());
+        this(new @Gen PhaseInLastLearnedClauseSelectionStrategy());
     }
 
     public VarOrderHeap(IPhaseSelectionStrategy strategy) {
@@ -203,11 +203,11 @@ public class VarOrderHeap implements IOrder, Serializable {
     public void init() {
         int nlength = this.lits.nVars() + 1;
         if (this.activity == null || this.activity.length < nlength) {
-            this.activity = new double[nlength];
+            this.activity = new @Gen double[nlength];
         }
         this.phaseStrategy.init(nlength);
         this.activity[0] = -1;
-        this.heap = new Heap(this.activity);
+        this.heap = new @Gen Heap(this.activity);
         this.heap.setBounds(nlength);
         for (int i = 1; i < nlength; i++) {
             assert i > 0;

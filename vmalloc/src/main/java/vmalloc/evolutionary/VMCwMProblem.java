@@ -86,10 +86,10 @@ public class VMCwMProblem extends AbstractProblem {
     
     private VariableEncoding makeEncoding(Encoding encoding) {
         if (encoding == Encoding.INTEGER) {
-            return new IntegerEncoding();
+            return new @Gen IntegerEncoding();
         }
         else if (encoding == Encoding.BINARY_INTEGER) {
-            return new BinaryIntegerEncoding();
+            return new @Gen BinaryIntegerEncoding();
         }
         throw new InvalidEncodingException();
     }
@@ -134,7 +134,7 @@ public class VMCwMProblem extends AbstractProblem {
     }
     
     private static IVec<VirtualMachineVec> retrieveAntiColocatableVirtualMachines(JobVec jobs) {
-        IVec<VirtualMachineVec> anti_coloc_vms = new Vec<VirtualMachineVec>();
+        IVec<VirtualMachineVec> anti_coloc_vms = new @Gen Vec<VirtualMachineVec>();
         for (int i = 0; i < jobs.size(); ++i) {
             Job job = jobs.get(i);
             VirtualMachineVec job_anti_coloc_vms = job.getAntiColocatableVirtualMachines();
@@ -146,7 +146,7 @@ public class VMCwMProblem extends AbstractProblem {
     }
     
     private static VirtualMachineVec retrievePlatformConstrainedVirtualMachines(VirtualMachineVec vms) {
-        VirtualMachineVec plat_constrained_vms = new VirtualMachineVec();
+        VirtualMachineVec plat_constrained_vms = new @Gen VirtualMachineVec();
         for (int i = 0; i < vms.size(); ++i) {
             if (vms.get(i).getUnallowedPhysicalMachines().size() > 0) {
                 plat_constrained_vms.push(vms.get(i));
@@ -167,7 +167,7 @@ public class VMCwMProblem extends AbstractProblem {
     
     private void ensureConstraintViolation(Solution sol) {
         if (!sol.hasAttribute(VIOLATION_ATR)) {
-            sol.setAttribute(VIOLATION_ATR, new Double(Utils.sum(sol.getConstraints())));
+            sol.setAttribute(VIOLATION_ATR, new @Gen Double(Utils.sum(sol.getConstraints())));
         }
     }
     
@@ -203,8 +203,8 @@ public class VMCwMProblem extends AbstractProblem {
         this.max_mig_percentile = max_mig_percentile;
         this.anti_coloc_vms = retrieveAntiColocatableVirtualMachines(this.jobs);
         this.plat_constrained_vms = retrievePlatformConstrainedVirtualMachines(this.vms);
-        this.pm_id_to_idx = Utils.makePhysicalMachineIDtoIndexMap(this.pms);
-        this.vm_id_to_idx = Utils.makeVirtualMachineIDtoIndexMap(this.vms);
+        this.pm_id_to_idx = Utils.makePhysicalMachineIDtoIndexMap_Gen(this.pms);
+        this.vm_id_to_idx = Utils.makeVirtualMachineIDtoIndexMap_Gen(this.vms);
         this.total_cpu_cap = cpuCapacitySum(this.pms);
         this.total_mem_cap = memoryCapacitySum(this.pms);
         this.total_cpu_req = cpuRequirementSum(this.vms);
@@ -278,7 +278,7 @@ public class VMCwMProblem extends AbstractProblem {
     
     @Override
     public void evaluate(Solution solution) {
-     // Initialize
+        // Initialize
         int[] x = getVariableAssignment(solution);
         BigInteger[] used_cpu_caps = new BigInteger[this.pms.size()];
         BigInteger[] used_mem_caps = new BigInteger[this.pms.size()];
@@ -378,9 +378,9 @@ public class VMCwMProblem extends AbstractProblem {
 
     @Override
     public Solution newSolution() {
-        Solution solution = new Solution(getNumberOfVariables(),
-                                         getNumberOfObjectives(),
-                                         getNumberOfConstraints());
+        Solution solution = new @Gen Solution(getNumberOfVariables(),
+                                              getNumberOfObjectives(),
+                                              getNumberOfConstraints());
         for (int i = 0; i < getNumberOfVariables(); ++i) {
             solution.setVariable(i, makeVariable());
         }

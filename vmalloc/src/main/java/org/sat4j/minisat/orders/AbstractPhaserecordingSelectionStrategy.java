@@ -45,7 +45,7 @@ abstract class AbstractPhaserecordingSelectionStrategy implements
 
     public void init(int nlength) {
         if (this.phase == null || this.phase.length < nlength) {
-            this.phase = new int[nlength];
+            this.phase = new @Gen int[nlength];
         }
         for (int i = 1; i < nlength; i++) {
             this.phase[i] = negLit(i);

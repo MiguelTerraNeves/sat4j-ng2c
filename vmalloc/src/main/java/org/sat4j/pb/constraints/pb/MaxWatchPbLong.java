@@ -76,7 +76,7 @@ public final class MaxWatchPbLong extends WatchPbLong {
         this.activity = 0;
         this.watchCumul = 0;
         if (this.coefs.length > MaxWatchPb.LIMIT_FOR_MAP) {
-            this.litToCoeffs = new HashMap<Integer, Long>(this.coefs.length);
+            this.litToCoeffs = new @Gen HashMap<Integer, Long>(this.coefs.length);
             for (int i = 0; i < this.coefs.length; i++) {
                 this.litToCoeffs.put(this.lits[i], this.coefs[i]);
             }
@@ -107,7 +107,7 @@ public final class MaxWatchPbLong extends WatchPbLong {
         this.activity = 0;
         this.watchCumul = 0;
         if (coefs.length > MaxWatchPb.LIMIT_FOR_MAP) {
-            this.litToCoeffs = new HashMap<Integer, Long>(this.coefs.length);
+            this.litToCoeffs = new @Gen HashMap<Integer, Long>(this.coefs.length);
             for (int i = 0; i < this.coefs.length; i++) {
                 this.litToCoeffs.put(this.lits[i], this.coefs[i]);
             }
@@ -298,7 +298,7 @@ public final class MaxWatchPbLong extends WatchPbLong {
             BigInteger[] coefs, BigInteger degree, BigInteger sumCoefs)
             throws ContradictionException {
         // Parameters must not be modified
-        MaxWatchPbLong outclause = new MaxWatchPbLong(voc, lits, coefs, degree,
+        MaxWatchPbLong outclause = new @Gen MaxWatchPbLong(voc, lits, coefs, degree,
                 sumCoefs);
 
         if (outclause.degree <= 0) {
@@ -328,7 +328,7 @@ public final class MaxWatchPbLong extends WatchPbLong {
      */
     public static WatchPbLong normalizedWatchPbNew(ILits voc,
             IDataStructurePB mpb) {
-        return new MaxWatchPbLong(voc, mpb);
+        return new @Gen MaxWatchPbLong(voc, mpb);
     }
 
 }
