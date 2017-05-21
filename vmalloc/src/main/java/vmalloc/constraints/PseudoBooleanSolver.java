@@ -80,10 +80,9 @@ public class PseudoBooleanSolver extends ConstraintSolver {
          * @param lits The constraint's literals.
          * @param rhs The constraint's right-hand side.
          */
-        ConstraintWithCoeffsAndRHS(IVecInt lits, IVec<BigInteger> coeffs, BigInteger rhs) {
-            super(lits, rhs);
-            this.coeffs = new @Gen Vec<BigInteger>(coeffs.size());
-            coeffs.copyTo(this.coeffs);
+        ConstraintWithRHS(IVecInt lits, BigInteger rhs) {
+            super(lits);
+            this.rhs = rhs;
         }
         
         /**
@@ -113,7 +112,8 @@ public class PseudoBooleanSolver extends ConstraintSolver {
          */
         ConstraintWithCoeffsAndRHS(IVecInt lits, IVec<BigInteger> coeffs, BigInteger rhs) {
             super(lits, rhs);
-            this.coeffs = coeffs;
+            this.coeffs = new @Gen Vec<BigInteger>(coeffs.size());
+            coeffs.copyTo(this.coeffs);
         }
         
         /**
