@@ -1975,7 +1975,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             if (!global || this.timer == null) {
                 firstTimeGlobal = true;
                 this.undertimeout = true;
-                TimerTask stopMe = new @Gen TimerTask() {
+                TimerTask stopMe = new TimerTask() {
                     @Override
                     public void run() {
                         Solver.this.undertimeout = false;
