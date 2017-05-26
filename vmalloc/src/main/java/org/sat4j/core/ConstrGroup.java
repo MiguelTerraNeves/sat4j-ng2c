@@ -45,7 +45,7 @@ import org.sat4j.specs.IVec;
  */
 public class ConstrGroup implements IConstr {
 
-    private final IVec<IConstr> constrs = new Vec<IConstr>();
+    private final IVec<IConstr> constrs = new @Gen Vec<IConstr>();
     private final boolean disallowNullConstraints;
 
     /**
