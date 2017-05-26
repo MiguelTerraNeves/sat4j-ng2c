@@ -202,12 +202,12 @@ public abstract class PBSolver extends Solver<PBDataStructureFactory> implements
     /**
      * @since 2.1
      */
-    public final LearnedConstraintsDeletionStrategy objectiveFunctionBased = new @Gen LearnedConstraintsDeletionStrategy() {
+    public final LearnedConstraintsDeletionStrategy objectiveFunctionBased = new LearnedConstraintsDeletionStrategy() {
 
         private static final long serialVersionUID = 1L;
         private boolean[] inObjectiveFunction;
 
-        private final ConflictTimer clauseManagement = new @Gen ConflictTimerAdapter(
+        private final ConflictTimer clauseManagement = new ConflictTimerAdapter(
                 1000) {
             private static final long serialVersionUID = 1L;
             private int nbconflict = 0;
