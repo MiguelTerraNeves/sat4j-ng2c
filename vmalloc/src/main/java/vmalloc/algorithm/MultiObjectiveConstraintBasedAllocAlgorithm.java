@@ -304,7 +304,7 @@ public abstract class MultiObjectiveConstraintBasedAllocAlgorithm extends Constr
     
     // used by Pareto-MCS algorithms
     protected IVecInt buildUndefFormulas() {
-        IVecInt undef_fmls = new VecInt();
+        IVecInt undef_fmls = new @Gen VecInt();
         for (int i = 0; i < this.energy_lits.size(); ++i) {
             assert(this.energy_coeffs.get(i).compareTo(BigDecimal.ZERO) > 0);
             undef_fmls.push(-this.energy_lits.get(i));

@@ -19,6 +19,7 @@ public class ParetoCLD extends MultiObjectiveConstraintBasedAllocAlgorithm {
     @Override
     public void allocate() {
         System.out.println("c Initializing");
+        System.newAllocGen();
         ConstraintSolver solver = null;
         try {
             solver = buildSolver();
@@ -32,21 +33,28 @@ public class ParetoCLD extends MultiObjectiveConstraintBasedAllocAlgorithm {
         printElapsedTime();
         IVecInt undef_fmls = buildUndefFormulas();
         boolean mcs_exists = false, next_mcs = false;
-        IVec<ConstraintID> to_remove = new Vec<ConstraintID>();
+        IVec<ConstraintID> to_remove = new @Gen Vec<ConstraintID>();
+        int perm_gen = System.getAllocGen();
+        System.newAllocGen();
         while (true) {
             System.out.println("c Computing mapping");
             checkSAT(solver);
+            System.out.println("c Solver returned");
+            printElapsedTime();
             if (!solver.isSolved()) {
                 printTimeoutMessage();
                 return;
             }
             else if (solver.isSatisfiable()) {
                 mcs_exists = true;
+                int current_gen = System.getAllocGen();
+                System.setAllocGen(perm_gen);
                 saveSolution(modelToAllocation(solver,
                                                this.instance.getPhysicalMachines(),
                                                this.instance.getJobs(),
                                                this.job_vars),
                              true);
+                System.setAllocGen(current_gen);
                 IVecInt asms = extractSatisfied(solver, undef_fmls);
                 try {
                     addRemovableConjunction(solver, asms, to_remove);
@@ -71,13 +79,17 @@ public class ParetoCLD extends MultiObjectiveConstraintBasedAllocAlgorithm {
                 solver.removeConstraints(to_remove);
                 to_remove.clear();
                 try {
+                    int current_gen = System.getAllocGen();
+                    System.setAllocGen(perm_gen);
                     solver.addClause(undef_fmls); // block MCS
                     undef_fmls = buildUndefFormulas();
+                    System.setAllocGen(current_gen);
                 }
                 catch (ContradictionException e) {
                     printOptimum();
                     return;
                 }
+                System.newAllocGen();
             }
         }
     }
