@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.pb.constraints.pb;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.math.BigInteger;
 
 import org.sat4j.minisat.constraints.card.AtLeast;
@@ -55,13 +57,13 @@ public final class AtLeastPB extends AtLeast implements PBConstr {
             IVecInt ps, int n) throws ContradictionException {
         int degree = niceParameters(s, voc, ps, n);
         if (degree == 0) {
-            return new @Gen UnitClausesPB(ps);
+            return USE_NG2C ? new @Gen UnitClausesPB(ps) : new UnitClausesPB(ps);
         }
         return atLeastNew(voc, ps, degree);
     }
 
     public static AtLeastPB atLeastNew(ILits voc, IVecInt ps, int n) {
-        AtLeastPB atleast = new @Gen AtLeastPB(voc, ps, n);
+        AtLeastPB atleast = USE_NG2C ? new @Gen AtLeastPB(voc, ps, n) : new AtLeastPB(voc, ps, n);
         atleast.register();
         return atleast;
     }

@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.pb.constraints.pb;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -99,8 +101,8 @@ public abstract class WatchPb implements IWatchPb, Propagatable, Undoable,
 	/** Constructor used for learnt constraints. */
 	WatchPb(IDataStructurePB mpb) {
 		int size = mpb.size();
-		this.lits = new @Gen int[size];
-		this.coefs = new @Gen BigInteger[size];
+		this.lits = USE_NG2C ? new @Gen int[size] : new int[size];
+		this.coefs = USE_NG2C ? new @Gen BigInteger[size] : new BigInteger[size];
 		mpb.buildConstraintFromMapPb(this.lits, this.coefs);
 
 		this.degree = mpb.getDegree();

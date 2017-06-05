@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.minisat.orders;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import static org.sat4j.core.LiteralsUtils.negLit;
 
 import org.sat4j.minisat.core.IPhaseSelectionStrategy;
@@ -45,7 +47,7 @@ abstract class AbstractPhaserecordingSelectionStrategy implements
 
     public void init(int nlength) {
         if (this.phase == null || this.phase.length < nlength) {
-            this.phase = new @Gen int[nlength];
+            this.phase = USE_NG2C ? new @Gen int[nlength] : new int[nlength];
         }
         for (int i = 1; i < nlength; i++) {
             this.phase[i] = negLit(i);

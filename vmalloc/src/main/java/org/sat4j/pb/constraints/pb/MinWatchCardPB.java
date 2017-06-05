@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.pb.constraints.pb;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.math.BigInteger;
 
 import org.sat4j.minisat.constraints.card.MinWatchCard;
@@ -140,15 +142,15 @@ public final class MinWatchCardPB extends MinWatchCard implements PBConstr {
                     throw new ContradictionException();
                 }
             }
-            return new @Gen UnitClausesPB(ps);
+            return USE_NG2C ? new @Gen UnitClausesPB(ps) : new UnitClausesPB(ps);
         }
 
         // constraint is now instanciated
         MinWatchCardPB retour = null;
         if (normalized) {
-            retour = new @Gen MinWatchCardPB(voc, ps, mydegree);
+            retour = USE_NG2C ? new @Gen MinWatchCardPB(voc, ps, mydegree) : new MinWatchCardPB(voc, ps, mydegree);
         } else {
-            retour = new @Gen MinWatchCardPB(voc, ps, moreThan, mydegree);
+            retour = USE_NG2C ? new @Gen MinWatchCardPB(voc, ps, moreThan, mydegree) : new MinWatchCardPB(voc, ps, moreThan, mydegree);
         }
 
         if (retour.bigDegree.signum() <= 0) {

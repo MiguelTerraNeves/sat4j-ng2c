@@ -1,5 +1,7 @@
 package vmalloc.constraints;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,7 +46,7 @@ public class PseudoBooleanSolver extends ConstraintSolver {
          * @param lits The literals in the constraint.
          */
         Constraint(IVecInt lits) {
-            this.lits = new @Gen VecInt(lits.size());
+            this.lits = USE_NG2C ? new @Gen VecInt(lits.size()) : new VecInt(lits.size());
             lits.copyTo(this.lits);
         }
         
@@ -112,7 +114,7 @@ public class PseudoBooleanSolver extends ConstraintSolver {
          */
         ConstraintWithCoeffsAndRHS(IVecInt lits, IVec<BigInteger> coeffs, BigInteger rhs) {
             super(lits, rhs);
-            this.coeffs = new @Gen Vec<BigInteger>(coeffs.size());
+            this.coeffs = USE_NG2C ? new @Gen Vec<BigInteger>(coeffs.size()) : new Vec<BigInteger>(coeffs.size());
             coeffs.copyTo(this.coeffs);
         }
         
@@ -343,13 +345,13 @@ public class PseudoBooleanSolver extends ConstraintSolver {
      * removed by providing the {@link IConstr} object, returned by the add methods, to the
      * {@link IPBSolver#removeConstr(IConstr)} method.
      */
-    private Map<ConstraintID, IConstr> rem_map = new @Gen HashMap<ConstraintID, IConstr>();
+    private Map<ConstraintID, IConstr> rem_map = USE_NG2C ? new @Gen HashMap<ConstraintID, IConstr>() : new HashMap<ConstraintID, IConstr>();
     
     /**
      * Map used to store constraints that SAT4J satisfied by unit propagation.
      * @see #removeConstraint(ConstraintID)
      */
-    private Map<ConstraintID, Constraint> unit_sat_constraints = new @Gen HashMap<ConstraintID, Constraint>();
+    private Map<ConstraintID, Constraint> unit_sat_constraints = USE_NG2C ? new @Gen HashMap<ConstraintID, Constraint>() : new HashMap<ConstraintID, Constraint>();
     
     /**
      * Creates an instance of a Pseudo-Boolean Satisfaction solver.
@@ -389,17 +391,17 @@ public class PseudoBooleanSolver extends ConstraintSolver {
 
     @Override
     public ConstraintID addRemovableExactly(IVecInt lits, int rhs) throws ContradictionException {
-        return storeRemovable(solver.addExactly(lits, rhs), new @Gen Exactly(lits, rhs));
+        return storeRemovable(solver.addExactly(lits, rhs), USE_NG2C ? new @Gen Exactly(lits, rhs) : new Exactly(lits, rhs));
     }
 
     @Override
     public ConstraintID addRemovableAtMost(IVecInt lits, int rhs) throws ContradictionException {
-        return storeRemovable(solver.addAtMost(lits, rhs), new @Gen AtMost(lits, rhs));
+        return storeRemovable(solver.addAtMost(lits, rhs), USE_NG2C ? new @Gen AtMost(lits, rhs) : new AtMost(lits, rhs));
     }
 
     @Override
     public ConstraintID addRemovableAtLeast(IVecInt lits, int rhs) throws ContradictionException {
-        return storeRemovable(solver.addAtLeast(lits, rhs), new @Gen AtLeast(lits, rhs));
+        return storeRemovable(solver.addAtLeast(lits, rhs), USE_NG2C ? new @Gen AtLeast(lits, rhs) : new AtLeast(lits, rhs));
     }
 
     @Override
@@ -420,21 +422,21 @@ public class PseudoBooleanSolver extends ConstraintSolver {
     @Override
     public ConstraintID addRemovableEqual(IVecInt lits, IVec<BigInteger> coeffs, BigInteger rhs)
             throws ContradictionException {
-        return storeRemovable(solver.addExactly(lits, coeffs, rhs), new @Gen Equal(lits, coeffs, rhs));
+        return storeRemovable(solver.addExactly(lits, coeffs, rhs), USE_NG2C ? new @Gen Equal(lits, coeffs, rhs) : new Equal(lits, coeffs, rhs));
     }
 
     @Override
     public ConstraintID addRemovableGreaterOrEqual(IVecInt lits, IVec<BigInteger> coeffs, BigInteger rhs)
             throws ContradictionException {
         return storeRemovable(solver.addPseudoBoolean(lits, coeffs, true, rhs),
-                              new @Gen GreaterOrEqual(lits, coeffs, rhs));
+                              USE_NG2C ? new @Gen GreaterOrEqual(lits, coeffs, rhs) : new GreaterOrEqual(lits, coeffs, rhs));
     }
 
     @Override
     public ConstraintID addRemovableLessOrEqual(IVecInt lits, IVec<BigInteger> coeffs, BigInteger rhs)
             throws ContradictionException {
         return storeRemovable(solver.addPseudoBoolean(lits, coeffs, false, rhs),
-                              new @Gen LessOrEqual(lits, coeffs, rhs));
+                              USE_NG2C ? new @Gen LessOrEqual(lits, coeffs, rhs) : new LessOrEqual(lits, coeffs, rhs));
     }
 
     @Override
@@ -457,7 +459,7 @@ public class PseudoBooleanSolver extends ConstraintSolver {
 
     @Override
     public ConstraintID addRemovableClause(IVecInt lits) throws ContradictionException {
-        return storeRemovable(solver.addClause(lits), new @Gen Clause(lits));
+        return storeRemovable(solver.addClause(lits), USE_NG2C ? new @Gen Clause(lits) : new Clause(lits));
     }
 
     @Override

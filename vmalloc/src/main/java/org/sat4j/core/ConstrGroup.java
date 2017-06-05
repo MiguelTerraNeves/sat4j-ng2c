@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.core;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.util.Iterator;
 
 import org.sat4j.specs.IConstr;
@@ -45,7 +47,7 @@ import org.sat4j.specs.IVec;
  */
 public class ConstrGroup implements IConstr {
 
-    private final IVec<IConstr> constrs = new @Gen Vec<IConstr>();
+    private final IVec<IConstr> constrs = USE_NG2C ? new @Gen Vec<IConstr>() : new Vec<IConstr>(); 
     private final boolean disallowNullConstraints;
 
     /**

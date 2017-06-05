@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.minisat.orders;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import static org.sat4j.core.LiteralsUtils.var;
 
 import java.io.PrintWriter;
@@ -76,7 +78,7 @@ public class VarOrderHeap implements IOrder, Serializable {
     protected IPhaseSelectionStrategy phaseStrategy;
 
     public VarOrderHeap() {
-        this(new @Gen PhaseInLastLearnedClauseSelectionStrategy());
+        this(USE_NG2C ? new @Gen PhaseInLastLearnedClauseSelectionStrategy() : new PhaseInLastLearnedClauseSelectionStrategy());
     }
 
     public VarOrderHeap(IPhaseSelectionStrategy strategy) {
@@ -203,11 +205,11 @@ public class VarOrderHeap implements IOrder, Serializable {
     public void init() {
         int nlength = this.lits.nVars() + 1;
         if (this.activity == null || this.activity.length < nlength) {
-            this.activity = new @Gen double[nlength];
+            this.activity = USE_NG2C ? new @Gen double[nlength] : new double[nlength];
         }
         this.phaseStrategy.init(nlength);
         this.activity[0] = -1;
-        this.heap = new @Gen Heap(this.activity);
+        this.heap = USE_NG2C ? new @Gen Heap(this.activity) : new Heap(this.activity);
         this.heap.setBounds(nlength);
         for (int i = 1; i < nlength; i++) {
             assert i > 0;

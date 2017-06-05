@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.minisat.constraints.cnf;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.io.Serializable;
 
 import org.sat4j.minisat.core.Constr;
@@ -64,7 +66,7 @@ public abstract class WLClause implements Propagatable, Constr, Serializable {
      *            A VecInt that WILL BE EMPTY after calling that method.
      */
     public WLClause(IVecInt ps, ILits voc) {
-        this.lits = new @Gen int[ps.size()];
+        this.lits = USE_NG2C ? new @Gen int[ps.size()] : new int[ps.size()];
         ps.moveTo(this.lits);
         assert ps.size() == 0;
         this.voc = voc;

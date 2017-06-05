@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.minisat.constraints.cnf;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import static org.sat4j.core.LiteralsUtils.neg;
 
 import org.sat4j.minisat.core.ILits;
@@ -81,7 +83,7 @@ public class OriginalHTClause extends HTClause {
      */
     public static OriginalHTClause brandNewClause(UnitPropagationListener s,
             ILits voc, IVecInt literals) {
-        OriginalHTClause c = new @Gen OriginalHTClause(literals, voc);
+        OriginalHTClause c = USE_NG2C ? new @Gen OriginalHTClause(literals, voc) : new OriginalHTClause(literals, voc);
         c.register();
         return c;
     }

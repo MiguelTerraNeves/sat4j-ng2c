@@ -1,5 +1,7 @@
 package vmalloc.constraints;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.math.BigInteger;
 
 /**
@@ -65,7 +67,7 @@ public class ConstraintID implements Comparable<ConstraintID> {
      * @return A fresh unique constraint id.
      */
     public static ConstraintID makeFresh() {
-        ConstraintID new_id = new @Gen ConstraintID(id_gen);
+        ConstraintID new_id = USE_NG2C ? new @Gen ConstraintID(id_gen) : new ConstraintID(id_gen);
         id_gen = id_gen.add(BigInteger.ONE);
         return new_id;
     }

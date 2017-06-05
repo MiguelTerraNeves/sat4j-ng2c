@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.minisat.restarts;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import org.sat4j.minisat.core.CircularBuffer;
 import org.sat4j.minisat.core.Constr;
 import org.sat4j.minisat.core.RestartStrategy;
@@ -50,9 +52,9 @@ public class Glucose21Restarts implements RestartStrategy {
      */
     private static final long serialVersionUID = 1L;
 
-    private final CircularBuffer bufferLBD = new @Gen CircularBuffer(50);
+    private final CircularBuffer bufferLBD = USE_NG2C ? new @Gen CircularBuffer(50) : new CircularBuffer(50);
 
-    private final CircularBuffer bufferTrail = new @Gen CircularBuffer(5000);
+    private final CircularBuffer bufferTrail = USE_NG2C ? new @Gen CircularBuffer(5000) : new CircularBuffer(5000);
 
     private long sumOfAllLBD = 0;
 

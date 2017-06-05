@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.minisat.constraints.cnf;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import org.sat4j.minisat.core.ILits;
 import org.sat4j.specs.IVecInt;
 import org.sat4j.specs.UnitPropagationListener;
@@ -77,7 +79,7 @@ public final class OriginalWLClause extends WLClause {
      */
     public static OriginalWLClause brandNewClause(UnitPropagationListener s,
             ILits voc, IVecInt literals) {
-        OriginalWLClause c = new @Gen OriginalWLClause(literals, voc);
+        OriginalWLClause c = USE_NG2C ? new @Gen OriginalWLClause(literals, voc) : new OriginalWLClause(literals, voc);
         c.register();
         return c;
     }

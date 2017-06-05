@@ -30,6 +30,8 @@
 
 package org.sat4j.pb.constraints;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.math.BigInteger;
 
 import org.sat4j.core.Vec;
@@ -55,7 +57,7 @@ public class MinCardConstructor implements ICardConstructor {
         IVecInt resLits = new VecInt();
         IVec<BigInteger> resCoefs = new Vec<BigInteger>();
         dspb.buildConstraintFromConflict(resLits, resCoefs);
-        return new @Gen MinWatchCard(voc, resLits, true, dspb.getDegree().intValue());
+        return USE_NG2C ? new @Gen MinWatchCard(voc, resLits, true, dspb.getDegree().intValue()) : new MinWatchCard(voc, resLits, true, dspb.getDegree().intValue());
     }
 
 }

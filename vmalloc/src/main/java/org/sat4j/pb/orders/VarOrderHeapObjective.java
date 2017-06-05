@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.pb.orders;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import static org.sat4j.core.LiteralsUtils.neg;
 import static org.sat4j.core.LiteralsUtils.var;
 
@@ -52,7 +54,7 @@ public class VarOrderHeapObjective extends VarOrderHeap implements
     private ObjectiveFunction obj;
 
     public VarOrderHeapObjective() {
-        this(new @Gen PhaseInLastLearnedClauseSelectionStrategy());
+        this(USE_NG2C ? new @Gen PhaseInLastLearnedClauseSelectionStrategy() : new PhaseInLastLearnedClauseSelectionStrategy());
     }
 
     public VarOrderHeapObjective(IPhaseSelectionStrategy strategy) {

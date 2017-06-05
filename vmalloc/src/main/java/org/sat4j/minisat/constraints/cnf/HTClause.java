@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.minisat.constraints.cnf;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import static org.sat4j.core.LiteralsUtils.neg;
 
 import java.io.Serializable;
@@ -81,7 +83,7 @@ public abstract class HTClause implements Propagatable, Constr, Serializable {
         this.tail = ps.last();
         final int size = ps.size() - 2;
         assert size > 0;
-        this.middleLits = new @Gen int[size];
+        this.middleLits = USE_NG2C ? new @Gen int[size] : new int[size];
         System.arraycopy(ps.toArray(), 1, this.middleLits, 0, size);
         ps.clear();
         assert ps.size() == 0;

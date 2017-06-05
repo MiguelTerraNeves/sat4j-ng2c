@@ -1,5 +1,7 @@
 package vmalloc.domain;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 /**
  * Representation of a client application. A job is composed by a set of virtual machines.
  * @author Miguel Terra-Neves
@@ -22,7 +24,7 @@ public class Job {
      */
     public Job(int id) {
         this.id = id;
-        this.vms = new @Gen VirtualMachineVec();
+        this.vms = USE_NG2C ? new @Gen VirtualMachineVec() : new VirtualMachineVec();
     }
     
     /**

@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.core;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -231,7 +233,7 @@ public final class VecInt implements IVecInt {
     }
 
     public VecInt(int size) {
-        this.myarray = new @Gen int[size];
+        this.myarray = USE_NG2C ? new @Gen int[size] : new int[size];
     }
 
     /**
@@ -258,7 +260,7 @@ public final class VecInt implements IVecInt {
      *            the integer to fill the vector with
      */
     public VecInt(int size, int pad) {
-        this.myarray = new @Gen int[size];
+        this.myarray = USE_NG2C ? new @Gen int[size] : new int[size];
         for (int i = 0; i < size; i++) {
             this.myarray[i] = pad;
         }
@@ -306,7 +308,7 @@ public final class VecInt implements IVecInt {
 
     public void ensure(int nsize) {
         if (nsize >= this.myarray.length) {
-            int[] narray = new @Gen int[Math.max(nsize, this.nbelem * 2)];
+            int[] narray = USE_NG2C ? new @Gen int[Math.max(nsize, this.nbelem * 2)] : new int[Math.max(nsize, this.nbelem * 2)];
             System.arraycopy(this.myarray, 0, narray, 0, this.nbelem);
             this.myarray = narray;
         }

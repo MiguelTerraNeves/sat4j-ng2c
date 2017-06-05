@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.pb.constraints.pb;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -96,7 +98,7 @@ public abstract class WatchPbLong implements Propagatable, Constr, Undoable,
 	/** Constructor used for learnt constraints. */
 	WatchPbLong(IDataStructurePB mpb) {
 		int size = mpb.size();
-		this.lits = new @Gen int[size];
+		this.lits = USE_NG2C ? new @Gen int[size] : new int[size];
 		BigInteger[] bigCoefs = new BigInteger[size];
 		mpb.buildConstraintFromMapPb(this.lits, bigCoefs);
 		this.coefs = toLong(bigCoefs);
@@ -123,7 +125,7 @@ public abstract class WatchPbLong implements Propagatable, Constr, Undoable,
 	}
 
 	public static long[] toLong(BigInteger[] bigValues) {
-		long[] res = new @Gen long[bigValues.length];
+		long[] res = USE_NG2C ? new @Gen long[bigValues.length] : new long[bigValues.length];
 		for (int i = 0; i < res.length; i++) {
 			res[i] = bigValues[i].longValue();
 		}
@@ -652,11 +654,17 @@ public abstract class WatchPbLong implements Propagatable, Constr, Undoable,
 		}
 	}
 
-	private final Comparator<Integer> levelBased = new @Gen Comparator<Integer>() {
+	private final Comparator<Integer> levelBased = USE_NG2C ? new @Gen Comparator<Integer>() {
 
 		public int compare(Integer o1, Integer o2) {
 			return voc.getLevel(o1) - voc.getLevel(o2);
 		}
 
-	};
+	} : new Comparator<Integer>() {
+
+        public int compare(Integer o1, Integer o2) {
+            return voc.getLevel(o1) - voc.getLevel(o2);
+        }
+
+    };
 }

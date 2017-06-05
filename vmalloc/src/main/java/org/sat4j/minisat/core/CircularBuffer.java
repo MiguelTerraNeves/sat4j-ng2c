@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.minisat.core;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.io.Serializable;
 
 /**
@@ -50,7 +52,7 @@ public class CircularBuffer implements Serializable {
     private boolean full = false;
 
     public CircularBuffer(int capacity) {
-        this.values = new @Gen int[capacity];
+        this.values = USE_NG2C ? new @Gen int[capacity] : new int[capacity];
     }
 
     public void push(int value) {

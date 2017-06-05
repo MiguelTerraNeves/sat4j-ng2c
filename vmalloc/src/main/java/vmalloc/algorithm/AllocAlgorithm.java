@@ -1,5 +1,7 @@
 package vmalloc.algorithm;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -306,14 +308,19 @@ public abstract class AllocAlgorithm {
     protected AllocAlgorithm(VMCwMProblem instance, VMCwMProblem.Encoding encoding) {
         this.instance = instance;
         this.instance.setEncoding(encoding);
-        this.solutions = new @Gen NondominatedPopulation();
-        this.results = new @Gen LinkedList<NondominatedPopulation>();
+        this.solutions = USE_NG2C ? new @Gen NondominatedPopulation() : new NondominatedPopulation();
+        this.results = USE_NG2C ? new @Gen LinkedList<NondominatedPopulation>() : new LinkedList<NondominatedPopulation>();
         ProblemFactory.getInstance().addProvider(
-                new @Gen VWCwMProblemProvider(this.instance.getPhysicalMachines(),
-                                              this.instance.getJobs(),
-                                              this.instance.getMappings(),
-                                              this.instance.getMaxMigrationPercentile(),
-                                              encoding));
+                USE_NG2C ? new @Gen VWCwMProblemProvider(this.instance.getPhysicalMachines(),
+                                                         this.instance.getJobs(),
+                                                         this.instance.getMappings(),
+                                                         this.instance.getMaxMigrationPercentile(),
+                                                         encoding)
+                         : new VWCwMProblemProvider(this.instance.getPhysicalMachines(),
+                                                    this.instance.getJobs(),
+                                                    this.instance.getMappings(),
+                                                    this.instance.getMaxMigrationPercentile(),
+                                                    encoding));
     }
 
     public void setTimeout(long timeout) { this.timeout = timeout; }

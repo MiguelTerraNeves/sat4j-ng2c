@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.minisat.constraints.card;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.io.Serializable;
 
 import org.sat4j.minisat.constraints.cnf.Lits;
@@ -123,7 +125,7 @@ public class MinWatchCard implements Propagatable, Constr, Undoable,
         }
 
         // On copie les litt?raux de la contrainte
-        this.lits = new @Gen int[ps.size()];
+        this.lits = USE_NG2C ? new @Gen int[ps.size()] : new int[ps.size()];
         ps.moveTo(this.lits);
 
         // On normalise la contrainte au sens de Barth
@@ -152,7 +154,7 @@ public class MinWatchCard implements Propagatable, Constr, Undoable,
         this.moreThan = ATLEAST;
 
         // On copie les litt?raux de la contrainte
-        this.lits = new @Gen int[ps.size()];
+        this.lits = USE_NG2C ? new @Gen int[ps.size()] : new int[ps.size()];
         ps.moveTo(this.lits);
 
     }
@@ -287,11 +289,11 @@ public class MinWatchCard implements Propagatable, Constr, Undoable,
                     throw new ContradictionException();
                 }
             }
-            return new @Gen UnitClauses(ps);
+            return USE_NG2C ? new @Gen UnitClauses(ps) : new UnitClauses(ps);
         }
 
         // La contrainte est maintenant cr??e
-        MinWatchCard retour = new @Gen MinWatchCard(voc, ps, moreThan, mydegree);
+        MinWatchCard retour = USE_NG2C ? new @Gen MinWatchCard(voc, ps, moreThan, mydegree) : new MinWatchCard(voc, ps, moreThan, mydegree);
 
         if (retour.degree <= 0) {
             return null;

@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.core;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -97,7 +99,7 @@ public final class Vec<T> implements IVec<T> {
      */
     @SuppressWarnings("unchecked")
     public Vec(int size) {
-        this.myarray = (T[]) new @Gen Object[size];
+        this.myarray = (T[]) (USE_NG2C ? new @Gen Object[size] : new Object[size]);
     }
 
     /**
@@ -111,7 +113,7 @@ public final class Vec<T> implements IVec<T> {
      */
     @SuppressWarnings("unchecked")
     public Vec(int size, T pad) {
-        this.myarray = (T[]) new @Gen Object[size];
+        this.myarray = (T[]) (USE_NG2C ? new @Gen Object[size] : new Object[size]);
         for (int i = 0; i < size; i++) {
             this.myarray[i] = pad;
         }
@@ -173,7 +175,7 @@ public final class Vec<T> implements IVec<T> {
     @SuppressWarnings("unchecked")
     public void ensure(final int nsize) {
         if (nsize >= this.myarray.length) {
-            T[] narray = (T[]) new @Gen Object[Math.max(nsize, this.nbelem * 2)];
+            T[] narray = (T[]) (USE_NG2C ? new @Gen Object[Math.max(nsize, this.nbelem * 2)] : new Object[Math.max(nsize, this.nbelem * 2)]);
             System.arraycopy(this.myarray, 0, narray, 0, this.nbelem);
             this.myarray = narray;
         }

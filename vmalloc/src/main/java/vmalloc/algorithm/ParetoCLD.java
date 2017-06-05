@@ -1,5 +1,7 @@
 package vmalloc.algorithm;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import org.sat4j.core.Vec;
 import org.sat4j.specs.ContradictionException;
 import org.sat4j.specs.IVec;
@@ -19,7 +21,9 @@ public class ParetoCLD extends MultiObjectiveConstraintBasedAllocAlgorithm {
     @Override
     public void allocate() {
         System.out.println("c Initializing");
-        System.newAllocGen();
+        if (USE_NG2C) {
+            System.newAllocGen();
+        }
         ConstraintSolver solver = null;
         try {
             solver = buildSolver();
@@ -33,9 +37,12 @@ public class ParetoCLD extends MultiObjectiveConstraintBasedAllocAlgorithm {
         printElapsedTime();
         IVecInt undef_fmls = buildUndefFormulas();
         boolean mcs_exists = false, next_mcs = false;
-        IVec<ConstraintID> to_remove = new @Gen Vec<ConstraintID>();
-        int perm_gen = System.getAllocGen();
-        System.newAllocGen();
+        IVec<ConstraintID> to_remove = USE_NG2C ? new @Gen Vec<ConstraintID>() : new Vec<ConstraintID>();
+        int perm_gen;
+        if (USE_NG2C) {
+            perm_gen = System.getAllocGen();
+            System.newAllocGen();
+        }
         while (true) {
             System.out.println("c Computing mapping");
             checkSAT(solver);
@@ -47,14 +54,19 @@ public class ParetoCLD extends MultiObjectiveConstraintBasedAllocAlgorithm {
             }
             else if (solver.isSatisfiable()) {
                 mcs_exists = true;
-                int current_gen = System.getAllocGen();
-                System.setAllocGen(perm_gen);
+                int current_gen;
+                if (USE_NG2C) {
+                    current_gen = System.getAllocGen();
+                    System.setAllocGen(perm_gen);
+                }
                 saveSolution(modelToAllocation(solver,
                                                this.instance.getPhysicalMachines(),
                                                this.instance.getJobs(),
                                                this.job_vars),
                              true);
-                System.setAllocGen(current_gen);
+                if (USE_NG2C) {
+                    System.setAllocGen(current_gen);
+                }
                 IVecInt asms = extractSatisfied(solver, undef_fmls);
                 try {
                     addRemovableConjunction(solver, asms, to_remove);
@@ -79,17 +91,24 @@ public class ParetoCLD extends MultiObjectiveConstraintBasedAllocAlgorithm {
                 solver.removeConstraints(to_remove);
                 to_remove.clear();
                 try {
-                    int current_gen = System.getAllocGen();
-                    System.setAllocGen(perm_gen);
+                    int current_gen;
+                    if (USE_NG2C) {
+                        current_gen = System.getAllocGen();
+                        System.setAllocGen(perm_gen);
+                    }
                     solver.addClause(undef_fmls); // block MCS
                     undef_fmls = buildUndefFormulas();
-                    System.setAllocGen(current_gen);
+                    if (USE_NG2C) {
+                        System.setAllocGen(current_gen);
+                    }
                 }
                 catch (ContradictionException e) {
                     printOptimum();
                     return;
                 }
-                System.newAllocGen();
+                if (USE_NG2C) {
+                    System.newAllocGen();
+                }
             }
         }
     }

@@ -1,8 +1,11 @@
 package vmalloc.domain;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import java.util.Comparator;
 import java.util.Iterator;
 
+import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.sat4j.core.Vec;
 import org.sat4j.specs.IVec;
 
@@ -18,7 +21,7 @@ public abstract class DomainVec<Type> implements IVec<Type> {
     /**
      * The actual vector object used to contain domain objects.
      */
-    private IVec<Type> vec = new @Gen Vec<Type>();
+    private IVec<Type> vec = USE_NG2C ? new @Gen Vec<Type>() : new Vec<Type>();
     
     /**
      * Creates an instance of a domain object vector.
@@ -35,7 +38,7 @@ public abstract class DomainVec<Type> implements IVec<Type> {
      * Creates an instance of domain object vector with the contents of an array.
      * @param array The array.
      */
-    public DomainVec(Type[] array) { this.vec = new @Gen Vec<Type>(array); }
+    public DomainVec(Type[] array) { this.vec = USE_NG2C ? new @Gen Vec<Type>(array) : new Vec<Type>(array); }
     
     /* 
      * Implementation of all methods in the IVec interface. All calls redirected to the actual Vec

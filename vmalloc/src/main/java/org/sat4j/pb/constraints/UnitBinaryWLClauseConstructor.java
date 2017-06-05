@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.pb.constraints;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import org.sat4j.minisat.constraints.cnf.LearntBinaryClause;
 import org.sat4j.minisat.constraints.cnf.LearntWLClause;
 import org.sat4j.minisat.constraints.cnf.OriginalBinaryClause;
@@ -48,7 +50,7 @@ public class UnitBinaryWLClauseConstructor implements IClauseConstructor {
             return null;
         }
         if (v.size() == 1) {
-            return new @Gen UnitClause(v.last());
+            return USE_NG2C ? new @Gen UnitClause(v.last()) : new UnitClause(v.last());
         }
         if (v.size() == 2) {
             return OriginalBinaryClause.brandNewClause(solver, voc, v);
@@ -58,12 +60,12 @@ public class UnitBinaryWLClauseConstructor implements IClauseConstructor {
 
     public Constr constructLearntClause(ILits voc, IVecInt literals) {
         if (literals.size() == 1) {
-            return new @Gen UnitClause(literals.last());
+            return USE_NG2C ? new @Gen UnitClause(literals.last()) : new UnitClause(literals.last());
         }
         if (literals.size() == 2) {
-            return new @Gen LearntBinaryClause(literals, voc);
+            return USE_NG2C ? new @Gen LearntBinaryClause(literals, voc) : new LearntBinaryClause(literals, voc);
         }
-        return new @Gen LearntWLClause(literals, voc);
+        return USE_NG2C ? new @Gen LearntWLClause(literals, voc) : new LearntWLClause(literals, voc);
     }
 
 }

@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.minisat.constraints.cnf;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 import org.sat4j.minisat.core.ILits;
 import org.sat4j.specs.IVecInt;
 import org.sat4j.specs.UnitPropagationListener;
@@ -69,7 +71,7 @@ public class OriginalBinaryClause extends BinaryClause {
      */
     public static OriginalBinaryClause brandNewClause(
             UnitPropagationListener s, ILits voc, IVecInt literals) {
-        OriginalBinaryClause c = new @Gen OriginalBinaryClause(literals, voc);
+        OriginalBinaryClause c = USE_NG2C ? new @Gen OriginalBinaryClause(literals, voc) : new OriginalBinaryClause(literals, voc);
         c.register();
         return c;
     }

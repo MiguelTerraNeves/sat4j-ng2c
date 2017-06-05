@@ -29,6 +29,8 @@
  *******************************************************************************/
 package org.sat4j.pb.constraints;
 
+import static org.sat4j.GlobalDefs.USE_NG2C;
+
 public class PBMaxClauseCardConstrDataStructure extends
         AbstractPBClauseCardConstrDataStructure {
 
@@ -38,8 +40,9 @@ public class PBMaxClauseCardConstrDataStructure extends
     private static final long serialVersionUID = 1L;
 
     public PBMaxClauseCardConstrDataStructure() {
-        super(new @Gen UnitBinaryHTClausePBConstructor(),
-                new @Gen MinCardPBConstructor(), new @Gen MaxWatchPBConstructor());
+        super(USE_NG2C ? new @Gen UnitBinaryHTClausePBConstructor() : new UnitBinaryHTClausePBConstructor(),
+              USE_NG2C ? new @Gen MinCardPBConstructor() : new MinCardPBConstructor(),
+              USE_NG2C ? new @Gen MaxWatchPBConstructor() : new MaxWatchPBConstructor());
     }
 
 }
