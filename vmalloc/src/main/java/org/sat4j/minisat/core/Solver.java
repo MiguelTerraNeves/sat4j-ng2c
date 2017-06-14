@@ -30,6 +30,8 @@
 package org.sat4j.minisat.core;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_SOLVER_STRUCTS;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_INTERNAL;
 
 import static org.sat4j.core.LiteralsUtils.neg;
 import static org.sat4j.core.LiteralsUtils.toDimacs;
@@ -88,12 +90,12 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
     /**
      * Set of original constraints.
      */
-    protected final IVec<Constr> constrs = USE_NG2C ? new @Gen Vec<Constr>() : new Vec<Constr>();
+    protected final IVec<Constr> constrs = ANNOTATE_SOLVER_STRUCTS ? new @Gen Vec<Constr>() : new Vec<Constr>();
 
     /**
      * Set of learned constraints.
      */
-    protected final IVec<Constr> learnts = USE_NG2C ? new @Gen Vec<Constr>() : new Vec<Constr>();
+    protected final IVec<Constr> learnts = ANNOTATE_SOLVER_STRUCTS ? new @Gen Vec<Constr>() : new Vec<Constr>();
 
     /**
      * Increment for clause activity.
@@ -114,12 +116,12 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
     /**
      * variable assignments (literals) in chronological order.
      */
-    protected final IVecInt trail = USE_NG2C ? new @Gen VecInt() : new VecInt();
+    protected final IVecInt trail = ANNOTATE_SOLVER_STRUCTS ? new @Gen VecInt() : new VecInt();
 
     /**
      * position of the decision levels on the trail.
      */
-    protected final IVecInt trailLim = USE_NG2C ? new @Gen VecInt() : new VecInt();
+    protected final IVecInt trailLim = ANNOTATE_SOLVER_STRUCTS ? new @Gen VecInt() : new VecInt();
 
     /**
      * position of assumptions before starting the search.
@@ -132,9 +134,9 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     private IOrder order;
 
-    private final ActivityComparator comparator = USE_NG2C ? new @Gen ActivityComparator() : new ActivityComparator();
+    private final ActivityComparator comparator = ANNOTATE_SOLVER_STRUCTS ? new @Gen ActivityComparator() : new ActivityComparator();
 
-    private SolverStats stats = USE_NG2C ? new @Gen SolverStats() : new SolverStats();
+    private SolverStats stats = ANNOTATE_SOLVER_STRUCTS ? new @Gen SolverStats() : new SolverStats();
 
     private LearningStrategy<D> learner;
 
@@ -148,17 +150,17 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     private SearchParams params;
 
-    private final IVecInt __dimacs_out = USE_NG2C ? new @Gen VecInt() : new VecInt();
+    private final IVecInt __dimacs_out = ANNOTATE_SOLVER_STRUCTS ? new @Gen VecInt() : new VecInt();
 
-    protected SearchListener slistener = USE_NG2C ? new @Gen VoidTracing() : new VoidTracing();
+    protected SearchListener slistener = ANNOTATE_SOLVER_STRUCTS ? new @Gen VoidTracing() : new VoidTracing();
 
     private RestartStrategy restarter;
 
-    private final Map<String, Counter> constrTypes = USE_NG2C ? new @Gen HashMap<String, Counter>() : new HashMap<String, Counter>();
+    private final Map<String, Counter> constrTypes = ANNOTATE_SOLVER_STRUCTS ? new @Gen HashMap<String, Counter>() : new HashMap<String, Counter>();
 
     private boolean isDBSimplificationAllowed = false;
 
-    private final IVecInt learnedLiterals = USE_NG2C ? new @Gen VecInt() : new VecInt();
+    private final IVecInt learnedLiterals = ANNOTATE_SOLVER_STRUCTS ? new @Gen VecInt() : new VecInt();
 
     private boolean verbose = false;
 
@@ -199,7 +201,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     public Solver(LearningStrategy<D> learner, D dsf, IOrder order,
             RestartStrategy restarter) {
-        this(learner, dsf, USE_NG2C ? new @Gen SearchParams() : new SearchParams(), order, restarter);
+        this(learner, dsf, ANNOTATE_SOLVER_STRUCTS ? new @Gen SearchParams() : new SearchParams(), order, restarter);
     }
 
     public Solver(LearningStrategy<D> learner, D dsf, SearchParams params,
@@ -464,7 +466,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     public IConstr addExactly(IVecInt literals, int n)
             throws ContradictionException {
-        ConstrGroup group = USE_NG2C ? new @Gen ConstrGroup(false) : new ConstrGroup(false);
+        ConstrGroup group = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen ConstrGroup(false) : new ConstrGroup(false);
         group.add(addAtMost(literals, n));
         group.add(addAtLeast(literals, n));
         return group;
@@ -543,9 +545,9 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
 
     private boolean[] mseen = new boolean[0];
 
-    private final IVecInt mpreason = USE_NG2C ? new @Gen VecInt() : new VecInt();
+    private final IVecInt mpreason = ANNOTATE_SOLVER_STRUCTS ? new @Gen VecInt() : new VecInt();
 
-    private final IVecInt moutLearnt = USE_NG2C ? new @Gen VecInt() : new VecInt();
+    private final IVecInt moutLearnt = ANNOTATE_SOLVER_STRUCTS ? new @Gen VecInt() : new VecInt();
 
     /**
      * @throws TimeoutException
@@ -860,9 +862,9 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         this.stats.reducedliterals += i - j;
     }
 
-    private final IVecInt analyzetoclear = USE_NG2C ? new @Gen VecInt() : new VecInt();
+    private final IVecInt analyzetoclear = ANNOTATE_SOLVER_STRUCTS ? new @Gen VecInt() : new VecInt();
 
-    private final IVecInt analyzestack = USE_NG2C ? new @Gen VecInt() : new VecInt();
+    private final IVecInt analyzestack = ANNOTATE_SOLVER_STRUCTS ? new @Gen VecInt() : new VecInt();
 
     // Taken from MiniSAT 1.14
     private void expensiveSimplification(IVecInt conflictToReduce) {
@@ -1037,7 +1039,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         this.claInc *= CLAUSE_RESCALE_FACTOR;
     }
 
-    private final IVec<Propagatable> watched = USE_NG2C ? new @Gen Vec<Propagatable>() : new Vec<Propagatable>();
+    private final IVec<Propagatable> watched = ANNOTATE_SOLVER_STRUCTS ? new @Gen Vec<Propagatable>() : new Vec<Propagatable>();
 
     /**
      * @return null if not conflict is found, else a conflicting constraint.
@@ -1158,7 +1160,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         }
     }
 
-    private final Pair analysisResult = USE_NG2C ? new @Gen Pair() : new Pair();
+    private final Pair analysisResult = ANNOTATE_SOLVER_STRUCTS ? new @Gen Pair() : new Pair();
 
     private boolean[] userbooleanmodel;
 
@@ -1290,8 +1292,8 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
     protected void analyzeAtRootLevel(Constr conflict) {
     }
 
-    private final IVecInt implied = USE_NG2C ? new @Gen VecInt() : new VecInt();
-    private final IVecInt decisions = USE_NG2C ? new @Gen VecInt() : new VecInt();
+    private final IVecInt implied = ANNOTATE_SOLVER_STRUCTS ? new @Gen VecInt() : new VecInt();
+    private final IVecInt decisions = ANNOTATE_SOLVER_STRUCTS ? new @Gen VecInt() : new VecInt();
 
     private int[] fullmodel;
 
@@ -1757,7 +1759,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             final int howmany = Solver.this.voc.nVars();
             // wall = constrs.size() > 10000 ? constrs.size() : 10000;
             if (this.flags.length <= howmany) {
-                this.flags = USE_NG2C ? new @Gen int[howmany + 1] : new int[howmany + 1];
+                this.flags = ANNOTATE_SOLVER_STRUCTS ? new @Gen int[howmany + 1] : new int[howmany + 1];
             }
             this.flag = 0;
             this.clauseManagement.reset();
@@ -1854,8 +1856,8 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
     /**
      * @since 2.1
      */
-    public final LearnedConstraintsDeletionStrategy glucose = USE_NG2C ? new @Gen Glucose2LCDS(this.lbdTimer)
-                                                                       : new Glucose2LCDS(this.lbdTimer);
+    public final LearnedConstraintsDeletionStrategy glucose = ANNOTATE_SOLVER_STRUCTS ? new @Gen Glucose2LCDS(this.lbdTimer)
+                                                                                      : new Glucose2LCDS(this.lbdTimer);
 
     protected LearnedConstraintsDeletionStrategy learnedConstraintsDeletionStrategy = this.glucose;
 
@@ -1885,7 +1887,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         boolean alreadylaunched = this.conflictCount != null;
         final int howmany = this.voc.nVars();
         if (this.mseen.length <= howmany) {
-            this.mseen = USE_NG2C ? new @Gen boolean[howmany + 1] : new boolean[howmany + 1];
+            this.mseen = ANNOTATE_SOLVER_STRUCTS ? new @Gen boolean[howmany + 1] : new boolean[howmany + 1];
         }
         this.trail.ensure(howmany);
         this.trailLim.ensure(howmany);
@@ -1967,7 +1969,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
         this.learner.init();
 
         if (!alreadylaunched) {
-            this.conflictCount = USE_NG2C ? new @Gen ConflictTimerContainer() : new ConflictTimerContainer();
+            this.conflictCount = ANNOTATE_SOLVER_STRUCTS ? new @Gen ConflictTimerContainer() : new ConflictTimerContainer();
             this.conflictCount.add(this.restarter);
             this.conflictCount.add(this.learnedConstraintsDeletionStrategy
                     .getTimer());
@@ -1983,7 +1985,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
                         Solver.this.undertimeout = false;
                     }
                 };
-                this.timer = USE_NG2C ? new @Gen Timer(true) : new Timer(true);
+                this.timer = ANNOTATE_SOLVER_STRUCTS ? new @Gen Timer(true) : new Timer(true);
                 this.timer.schedule(stopMe, this.timeout);
 
             }
@@ -2072,7 +2074,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             String type = it.next().getClass().getName();
             Counter count = learntTypes.get(type);
             if (count == null) {
-                learntTypes.put(type, USE_NG2C ? new @Gen Counter() : new Counter());
+                learntTypes.put(type, ANNOTATE_SOLVER_STRUCTS ? new @Gen Counter() : new Counter());
             } else {
                 count.inc();
             }
@@ -2158,7 +2160,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
                     .get("ignored satisfied constraints");
             if (count == null) {
                 this.constrTypes.put("ignored satisfied constraints",
-                        USE_NG2C ? new @Gen Counter() : new Counter());
+                        ANNOTATE_SOLVER_STRUCTS ? new @Gen Counter() : new Counter());
             } else {
                 count.inc();
             }
@@ -2167,7 +2169,7 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             String type = constr.getClass().getName();
             Counter count = this.constrTypes.get(type);
             if (count == null) {
-                this.constrTypes.put(type, USE_NG2C ? new @Gen Counter() : new Counter());
+                this.constrTypes.put(type, ANNOTATE_SOLVER_STRUCTS ? new @Gen Counter() : new Counter());
             } else {
                 count.inc();
             }
@@ -2504,10 +2506,10 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             this.learnedConstraintsDeletionStrategy = activityBased(timer);
             break;
         case LBD:
-            this.learnedConstraintsDeletionStrategy = USE_NG2C ? new @Gen GlucoseLCDS(timer) : new GlucoseLCDS(timer);
+            this.learnedConstraintsDeletionStrategy = ANNOTATE_SOLVER_STRUCTS ? new @Gen GlucoseLCDS(timer) : new GlucoseLCDS(timer);
             break;
         case LBD2:
-            this.learnedConstraintsDeletionStrategy = USE_NG2C ? new @Gen Glucose2LCDS(timer) : new Glucose2LCDS(timer);
+            this.learnedConstraintsDeletionStrategy = ANNOTATE_SOLVER_STRUCTS ? new @Gen Glucose2LCDS(timer) : new Glucose2LCDS(timer);
             break;
         }
         if (this.conflictCount != null) {
@@ -2527,10 +2529,10 @@ public class Solver<D extends DataStructureFactory> implements ISolverService,
             this.learnedConstraintsDeletionStrategy = activityBased(aTimer);
             break;
         case LBD:
-            this.learnedConstraintsDeletionStrategy = USE_NG2C ? new @Gen GlucoseLCDS(aTimer) : new GlucoseLCDS(aTimer);
+            this.learnedConstraintsDeletionStrategy = ANNOTATE_SOLVER_STRUCTS ? new @Gen GlucoseLCDS(aTimer) : new GlucoseLCDS(aTimer);
             break;
         case LBD2:
-            this.learnedConstraintsDeletionStrategy = USE_NG2C ? new @Gen Glucose2LCDS(aTimer) : new Glucose2LCDS(aTimer);
+            this.learnedConstraintsDeletionStrategy = ANNOTATE_SOLVER_STRUCTS ? new @Gen Glucose2LCDS(aTimer) : new Glucose2LCDS(aTimer);
             break;
         }
         if (this.conflictCount != null) {

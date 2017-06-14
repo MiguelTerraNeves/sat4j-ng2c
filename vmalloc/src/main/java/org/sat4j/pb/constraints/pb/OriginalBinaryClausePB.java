@@ -30,6 +30,7 @@
 package org.sat4j.pb.constraints.pb;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_INTERNAL;
 
 import java.math.BigInteger;
 
@@ -85,7 +86,7 @@ public final class OriginalBinaryClausePB extends OriginalBinaryClause
      */
     public static OriginalBinaryClausePB brandNewClause(
             UnitPropagationListener s, ILits voc, IVecInt literals) {
-        OriginalBinaryClausePB c = USE_NG2C ? new @Gen OriginalBinaryClausePB(literals, voc) : new OriginalBinaryClausePB(literals, voc);
+        OriginalBinaryClausePB c = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen OriginalBinaryClausePB(literals, voc) : new OriginalBinaryClausePB(literals, voc);
         c.register();
         return c;
     }

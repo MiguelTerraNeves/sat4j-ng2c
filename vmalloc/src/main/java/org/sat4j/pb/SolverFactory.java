@@ -30,6 +30,7 @@
 package org.sat4j.pb;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_SOLVER_STRUCTS;
 
 import org.sat4j.core.ASolverFactory;
 import org.sat4j.minisat.core.IOrder;
@@ -282,9 +283,9 @@ public final class SolverFactory extends ASolverFactory<IPBSolver> {
     }
 
     public static PBSolverResolution newPBResMixedConstraintsObjective() {
-        MiniSATLearning<PBDataStructureFactory> learning = USE_NG2C ? new @Gen MiniSATLearning<PBDataStructureFactory>() : new MiniSATLearning<PBDataStructureFactory>();
-        PBSolverResolution solver = USE_NG2C ? new @Gen PBSolverResolution(learning, new @Gen PBMaxClauseCardConstrDataStructure(), new @Gen VarOrderHeapObjective(), new @Gen MiniSATRestarts())
-                                             : new PBSolverResolution(learning, new PBMaxClauseCardConstrDataStructure(), new VarOrderHeapObjective(), new MiniSATRestarts());
+        MiniSATLearning<PBDataStructureFactory> learning = ANNOTATE_SOLVER_STRUCTS ? new @Gen MiniSATLearning<PBDataStructureFactory>() : new MiniSATLearning<PBDataStructureFactory>();
+        PBSolverResolution solver = ANNOTATE_SOLVER_STRUCTS ? new @Gen PBSolverResolution(learning, new @Gen PBMaxClauseCardConstrDataStructure(), new @Gen VarOrderHeapObjective(), new @Gen MiniSATRestarts())
+                                                            : new PBSolverResolution(learning, new PBMaxClauseCardConstrDataStructure(), new VarOrderHeapObjective(), new MiniSATRestarts());
         learning.setDataStructureFactory(solver.getDSFactory());
         learning.setVarActivityListener(solver);
         return solver;
@@ -303,8 +304,8 @@ public final class SolverFactory extends ASolverFactory<IPBSolver> {
     }
 
     public static PBSolverResolution newCompetPBResLongWLMixedConstraintsObjectiveExpSimp() {
-        return newCompetPBResMixedConstraintsObjectiveExpSimp(USE_NG2C ? new @Gen CompetResolutionPBLongMixedWLClauseCardConstrDataStructure()
-                                                                       : new CompetResolutionPBLongMixedWLClauseCardConstrDataStructure());
+        return newCompetPBResMixedConstraintsObjectiveExpSimp(ANNOTATE_SOLVER_STRUCTS ? new @Gen CompetResolutionPBLongMixedWLClauseCardConstrDataStructure()
+                                                                                      : new CompetResolutionPBLongMixedWLClauseCardConstrDataStructure());
     }
 
     public static PBSolverResolution newCompetMinPBResLongWLMixedConstraintsObjectiveExpSimp() {
@@ -313,9 +314,9 @@ public final class SolverFactory extends ASolverFactory<IPBSolver> {
 
     public static PBSolverResolution newCompetPBResMixedConstraintsObjectiveExpSimp(
             PBDataStructureFactory dsf) {
-        MiniSATLearning<PBDataStructureFactory> learning = USE_NG2C ? new @Gen MiniSATLearning<PBDataStructureFactory>() : new MiniSATLearning<PBDataStructureFactory>();
-        PBSolverResolution solver = USE_NG2C ? new @Gen PBSolverResolution(learning, dsf, new @Gen VarOrderHeapObjective(new @Gen RSATPhaseSelectionStrategy()), new ArminRestarts())
-                                             : new PBSolverResolution(learning, dsf, new VarOrderHeapObjective(new RSATPhaseSelectionStrategy()), new ArminRestarts());
+        MiniSATLearning<PBDataStructureFactory> learning = ANNOTATE_SOLVER_STRUCTS ? new @Gen MiniSATLearning<PBDataStructureFactory>() : new MiniSATLearning<PBDataStructureFactory>();
+        PBSolverResolution solver = ANNOTATE_SOLVER_STRUCTS ? new @Gen PBSolverResolution(learning, dsf, new @Gen VarOrderHeapObjective(new @Gen RSATPhaseSelectionStrategy()), new ArminRestarts())
+                                                            : new PBSolverResolution(learning, dsf, new VarOrderHeapObjective(new RSATPhaseSelectionStrategy()), new ArminRestarts());
         learning.setDataStructureFactory(solver.getDSFactory());
         learning.setVarActivityListener(solver);
         solver.setSimplifier(solver.EXPENSIVE_SIMPLIFICATION);
@@ -625,7 +626,7 @@ public final class SolverFactory extends ASolverFactory<IPBSolver> {
     public static PBSolverResolution newResolutionGlucose() {
         PBSolverResolution solver = newCompetPBResLongWLMixedConstraintsObjectiveExpSimp();
         solver.setSimplifier(Solver.NO_SIMPLIFICATION);
-        solver.setRestartStrategy(USE_NG2C ? new @Gen Glucose21Restarts() : new Glucose21Restarts());
+        solver.setRestartStrategy(ANNOTATE_SOLVER_STRUCTS ? new @Gen Glucose21Restarts() : new Glucose21Restarts());
         solver.setLearnedConstraintsDeletionStrategy(solver.glucose);
         return solver;
     }
@@ -641,7 +642,7 @@ public final class SolverFactory extends ASolverFactory<IPBSolver> {
      */
     public static PBSolverResolution newResolutionGlucose21() {
         PBSolverResolution solver = newResolutionGlucose();
-        solver.setRestartStrategy(USE_NG2C ? new @Gen Glucose21Restarts() : new Glucose21Restarts());
+        solver.setRestartStrategy(ANNOTATE_SOLVER_STRUCTS ? new @Gen Glucose21Restarts() : new Glucose21Restarts());
         return solver;
     }
 

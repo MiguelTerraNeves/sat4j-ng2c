@@ -1,6 +1,7 @@
 package vmalloc;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_INSTANCE;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -38,18 +39,18 @@ public class InputParser {
             String[] tokens = line.split(" ");
             assert(tokens.length == 5);
             int id = Integer.parseInt(tokens[0]);
-            BigInteger cpu = USE_NG2C ? new @Gen BigInteger(tokens[1]) : new BigInteger(tokens[1]);
-            BigInteger mem = USE_NG2C ? new @Gen BigInteger(tokens[2]) : new BigInteger(tokens[2]);
+            BigInteger cpu = ANNOTATE_INSTANCE ? new @Gen BigInteger(tokens[1]) : new BigInteger(tokens[1]);
+            BigInteger mem = ANNOTATE_INSTANCE ? new @Gen BigInteger(tokens[2]) : new BigInteger(tokens[2]);
             int idle_consume = Integer.parseInt(tokens[3]);
             int max_consume = Integer.parseInt(tokens[4]);
-            this.pms.push(USE_NG2C ? new @Gen PhysicalMachine(id, cpu, mem, idle_consume, max_consume)
-                                   : new PhysicalMachine(id, cpu, mem, idle_consume, max_consume));
+            this.pms.push(ANNOTATE_INSTANCE ? new @Gen PhysicalMachine(id, cpu, mem, idle_consume, max_consume)
+                                            : new PhysicalMachine(id, cpu, mem, idle_consume, max_consume));
         }
     }
     
     private PhysicalMachineVec parseUnallowedPhysicalMachines(String str) {
         String[] tokens = str.split(",");
-        PhysicalMachineVec unallowed_pms = USE_NG2C ? new @Gen PhysicalMachineVec() : new PhysicalMachineVec();
+        PhysicalMachineVec unallowed_pms = ANNOTATE_INSTANCE ? new @Gen PhysicalMachineVec() : new PhysicalMachineVec();
         assert(tokens.length < this.pms.size());
         for (String token_id : tokens) {
             int pm_id = Integer.parseInt(token_id);
@@ -66,23 +67,23 @@ public class InputParser {
             assert(tokens.length == 5 || tokens.length == 6);
             int job_id = Integer.parseInt(tokens[0]);
             while (job_id >= this.jobs.size()) {
-                this.jobs.push(USE_NG2C ? new @Gen Job(job_id) : new Job(job_id));
+                this.jobs.push(ANNOTATE_INSTANCE ? new @Gen Job(job_id) : new Job(job_id));
             }
             int vm_idx = Integer.parseInt(tokens[1]);
-            BigInteger cpu = USE_NG2C ? new @Gen BigInteger(tokens[2]) : new BigInteger(tokens[2]);
-            BigInteger mem = USE_NG2C ? new @Gen BigInteger(tokens[3]) : new BigInteger(tokens[3]);
+            BigInteger cpu = ANNOTATE_INSTANCE ? new @Gen BigInteger(tokens[2]) : new BigInteger(tokens[2]);
+            BigInteger mem = ANNOTATE_INSTANCE ? new @Gen BigInteger(tokens[3]) : new BigInteger(tokens[3]);
             boolean anti_coloc = TRUE_STRING.equals(tokens[4]);
             assert(anti_coloc || FALSE_STRING.equals(tokens[4]));
             if (tokens.length > 5) {
                 PhysicalMachineVec unallowed_pms = parseUnallowedPhysicalMachines(tokens[5]);
                 this.jobs.get(job_id).addVirtualMachine(
-                        USE_NG2C ? new @Gen VirtualMachine(job_id, vm_idx, cpu, mem, anti_coloc, unallowed_pms)
-                                 : new VirtualMachine(job_id, vm_idx, cpu, mem, anti_coloc, unallowed_pms));
+                        ANNOTATE_INSTANCE ? new @Gen VirtualMachine(job_id, vm_idx, cpu, mem, anti_coloc, unallowed_pms)
+                                          : new VirtualMachine(job_id, vm_idx, cpu, mem, anti_coloc, unallowed_pms));
             }
             else {
                 this.jobs.get(job_id).addVirtualMachine(
-                        USE_NG2C ? new @Gen VirtualMachine(job_id, vm_idx, cpu, mem, anti_coloc)
-                                 : new VirtualMachine(job_id, vm_idx, cpu, mem, anti_coloc));
+                        ANNOTATE_INSTANCE ? new @Gen VirtualMachine(job_id, vm_idx, cpu, mem, anti_coloc)
+                                          : new VirtualMachine(job_id, vm_idx, cpu, mem, anti_coloc));
             }
         }
     }
@@ -96,10 +97,10 @@ public class InputParser {
             int job_id = Integer.parseInt(tokens[0]);
             int vm_idx = Integer.parseInt(tokens[1]);
             int pm_id = Integer.parseInt(tokens[2]);
-            this.mappings.push(USE_NG2C ? new @Gen Mapping(this.jobs.get(job_id).getVirtualMachine(vm_idx),
-                                                           this.pms.get(pm_id))
-                                        : new Mapping(this.jobs.get(job_id).getVirtualMachine(vm_idx),
-                                                      this.pms.get(pm_id)));
+            this.mappings.push(ANNOTATE_INSTANCE ? new @Gen Mapping(this.jobs.get(job_id).getVirtualMachine(vm_idx),
+                                                                    this.pms.get(pm_id))
+                                                 : new Mapping(this.jobs.get(job_id).getVirtualMachine(vm_idx),
+                                                               this.pms.get(pm_id)));
         }
     }
     
@@ -110,9 +111,9 @@ public class InputParser {
         if (USE_NG2C) {
             System.newAllocGen();
         }
-        this.pms = USE_NG2C ? new @Gen PhysicalMachineVec() : new PhysicalMachineVec();
-        this.jobs = USE_NG2C ? new @Gen JobVec() : new JobVec();
-        this.mappings = USE_NG2C ? new @Gen MappingVec() : new MappingVec();
+        this.pms = ANNOTATE_INSTANCE ? new @Gen PhysicalMachineVec() : new PhysicalMachineVec();
+        this.jobs = ANNOTATE_INSTANCE ? new @Gen JobVec() : new JobVec();
+        this.mappings = ANNOTATE_INSTANCE ? new @Gen MappingVec() : new MappingVec();
         parsePhysicalMachines(reader);
         parseVirtualMachines(reader);
         parseMappings(reader);

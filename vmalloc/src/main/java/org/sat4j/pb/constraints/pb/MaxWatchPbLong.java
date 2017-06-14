@@ -30,6 +30,7 @@
 package org.sat4j.pb.constraints.pb;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_INTERNAL;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -78,7 +79,7 @@ public final class MaxWatchPbLong extends WatchPbLong {
         this.activity = 0;
         this.watchCumul = 0;
         if (this.coefs.length > MaxWatchPb.LIMIT_FOR_MAP) {
-            this.litToCoeffs = USE_NG2C ? new @Gen HashMap<Integer, Long>(this.coefs.length) : new HashMap<Integer, Long>(this.coefs.length);
+            this.litToCoeffs = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen HashMap<Integer, Long>(this.coefs.length) : new HashMap<Integer, Long>(this.coefs.length);
             for (int i = 0; i < this.coefs.length; i++) {
                 this.litToCoeffs.put(this.lits[i], this.coefs[i]);
             }
@@ -109,7 +110,7 @@ public final class MaxWatchPbLong extends WatchPbLong {
         this.activity = 0;
         this.watchCumul = 0;
         if (coefs.length > MaxWatchPb.LIMIT_FOR_MAP) {
-            this.litToCoeffs = USE_NG2C ? new @Gen HashMap<Integer, Long>(this.coefs.length) : new HashMap<Integer, Long>(this.coefs.length);
+            this.litToCoeffs = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen HashMap<Integer, Long>(this.coefs.length) : new HashMap<Integer, Long>(this.coefs.length);
             for (int i = 0; i < this.coefs.length; i++) {
                 this.litToCoeffs.put(this.lits[i], this.coefs[i]);
             }
@@ -300,7 +301,7 @@ public final class MaxWatchPbLong extends WatchPbLong {
             BigInteger[] coefs, BigInteger degree, BigInteger sumCoefs)
             throws ContradictionException {
         // Parameters must not be modified
-        MaxWatchPbLong outclause = USE_NG2C ? new @Gen MaxWatchPbLong(voc, lits, coefs, degree, sumCoefs) : new MaxWatchPbLong(voc, lits, coefs, degree, sumCoefs);
+        MaxWatchPbLong outclause = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen MaxWatchPbLong(voc, lits, coefs, degree, sumCoefs) : new MaxWatchPbLong(voc, lits, coefs, degree, sumCoefs);
 
         if (outclause.degree <= 0) {
             return null;
@@ -329,7 +330,7 @@ public final class MaxWatchPbLong extends WatchPbLong {
      */
     public static WatchPbLong normalizedWatchPbNew(ILits voc,
             IDataStructurePB mpb) {
-        return USE_NG2C ? new @Gen MaxWatchPbLong(voc, mpb) : new MaxWatchPbLong(voc, mpb);
+        return ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen MaxWatchPbLong(voc, mpb) : new MaxWatchPbLong(voc, mpb);
     }
 
 }

@@ -30,6 +30,7 @@
 package org.sat4j.minisat.orders;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_SOLVER_STRUCTS;
 
 import static org.sat4j.core.LiteralsUtils.var;
 
@@ -78,7 +79,7 @@ public class VarOrderHeap implements IOrder, Serializable {
     protected IPhaseSelectionStrategy phaseStrategy;
 
     public VarOrderHeap() {
-        this(USE_NG2C ? new @Gen PhaseInLastLearnedClauseSelectionStrategy() : new PhaseInLastLearnedClauseSelectionStrategy());
+        this(ANNOTATE_SOLVER_STRUCTS ? new @Gen PhaseInLastLearnedClauseSelectionStrategy() : new PhaseInLastLearnedClauseSelectionStrategy());
     }
 
     public VarOrderHeap(IPhaseSelectionStrategy strategy) {
@@ -205,11 +206,11 @@ public class VarOrderHeap implements IOrder, Serializable {
     public void init() {
         int nlength = this.lits.nVars() + 1;
         if (this.activity == null || this.activity.length < nlength) {
-            this.activity = USE_NG2C ? new @Gen double[nlength] : new double[nlength];
+            this.activity = ANNOTATE_SOLVER_STRUCTS ? new @Gen double[nlength] : new double[nlength];
         }
         this.phaseStrategy.init(nlength);
         this.activity[0] = -1;
-        this.heap = USE_NG2C ? new @Gen Heap(this.activity) : new Heap(this.activity);
+        this.heap = ANNOTATE_SOLVER_STRUCTS ? new @Gen Heap(this.activity) : new Heap(this.activity);
         this.heap.setBounds(nlength);
         for (int i = 1; i < nlength; i++) {
             assert i > 0;

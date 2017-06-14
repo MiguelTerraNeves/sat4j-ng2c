@@ -30,6 +30,7 @@
 package org.sat4j.pb.constraints.pb;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_INTERNAL;
 
 import java.math.BigInteger;
 
@@ -85,7 +86,7 @@ public final class OriginalHTClausePB extends OriginalHTClause implements
      */
     public static OriginalHTClausePB brandNewClause(UnitPropagationListener s,
             ILits voc, IVecInt literals) {
-        OriginalHTClausePB c = USE_NG2C ? new @Gen OriginalHTClausePB(literals, voc) : new OriginalHTClausePB(literals, voc);
+        OriginalHTClausePB c = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen OriginalHTClausePB(literals, voc) : new OriginalHTClausePB(literals, voc);
         c.register();
         return c;
     }

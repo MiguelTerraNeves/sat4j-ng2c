@@ -30,6 +30,7 @@
 package org.sat4j.pb.constraints;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_INTERNAL;
 
 import java.lang.reflect.Field;
 import java.math.BigInteger;
@@ -225,13 +226,13 @@ public abstract class AbstractPBDataStructureFactory extends
 
     @Override
     protected ILits createLits() {
-        return USE_NG2C ? new @Gen Lits() : new Lits();
+        return ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen Lits() : new Lits();
     }
 
     @Override
     public Constr createUnregisteredCardinalityConstraint(IVecInt literals,
             int degree) {
-        return USE_NG2C ? new @Gen AtLeast(getVocabulary(), literals, degree) : new AtLeast(getVocabulary(), literals, degree);
+        return ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen AtLeast(getVocabulary(), literals, degree) : new AtLeast(getVocabulary(), literals, degree);
     }
 
 }

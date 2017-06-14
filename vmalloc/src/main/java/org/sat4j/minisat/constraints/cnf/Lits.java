@@ -30,6 +30,7 @@
 package org.sat4j.minisat.constraints.cnf;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_INTERNAL;
 
 import java.io.Serializable;
 
@@ -82,27 +83,27 @@ public final class Lits implements Serializable, ILits {
         assert nvar >= 0;
         // let some space for unused 0 indexer.
         int nvars = nvar + 1;
-        boolean[] npool = USE_NG2C ? new @Gen boolean[nvars] :  new boolean[nvars];
+        boolean[] npool = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen boolean[nvars] :  new boolean[nvars];
         System.arraycopy(this.pool, 0, npool, 0, this.pool.length);
         this.pool = npool;
 
-        int[] nlevel = USE_NG2C ? new @Gen int[nvars] : new int[nvars];
+        int[] nlevel = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen int[nvars] : new int[nvars];
         System.arraycopy(this.level, 0, nlevel, 0, this.level.length);
         this.level = nlevel;
 
-        IVec<Propagatable>[] nwatches = USE_NG2C ? new @Gen IVec[2 * nvars] : new IVec[2 * nvars];
+        IVec<Propagatable>[] nwatches = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen IVec[2 * nvars] : new IVec[2 * nvars];
         System.arraycopy(this.watches, 0, nwatches, 0, this.watches.length);
         this.watches = nwatches;
 
-        IVec<Undoable>[] nundos = USE_NG2C ? new @Gen IVec[nvars] : new IVec[nvars];
+        IVec<Undoable>[] nundos = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen IVec[nvars] : new IVec[nvars];
         System.arraycopy(this.undos, 0, nundos, 0, this.undos.length);
         this.undos = nundos;
 
-        Constr[] nreason = USE_NG2C ? new @Gen Constr[nvars] : new Constr[nvars];
+        Constr[] nreason = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen Constr[nvars] : new Constr[nvars];
         System.arraycopy(this.reason, 0, nreason, 0, this.reason.length);
         this.reason = nreason;
 
-        boolean[] newFalsified = USE_NG2C ? new @Gen boolean[2 * nvars] : new boolean[2 * nvars];
+        boolean[] newFalsified = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen boolean[2 * nvars] : new boolean[2 * nvars];
         System.arraycopy(this.falsified, 0, newFalsified, 0,
                 this.falsified.length);
         this.falsified = newFalsified;
@@ -122,9 +123,9 @@ public final class Lits implements Serializable, ILits {
         if (!this.pool[var]) {
             this.realnVars++;
             this.pool[var] = true;
-            this.watches[var << 1] = USE_NG2C ? new @Gen Vec<Propagatable>() : new Vec<Propagatable>();
-            this.watches[var << 1 | 1] = USE_NG2C ? new @Gen Vec<Propagatable>() : new Vec<Propagatable>();
-            this.undos[var] = USE_NG2C ? new @Gen Vec<Undoable>() : new Vec<Undoable>();
+            this.watches[var << 1] = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen Vec<Propagatable>() : new Vec<Propagatable>();
+            this.watches[var << 1 | 1] = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen Vec<Propagatable>() : new Vec<Propagatable>();
+            this.undos[var] = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen Vec<Undoable>() : new Vec<Undoable>();
             this.level[var] = -1;
             this.falsified[var << 1] = false; // because truthValue[var] is
             // UNDEFINED

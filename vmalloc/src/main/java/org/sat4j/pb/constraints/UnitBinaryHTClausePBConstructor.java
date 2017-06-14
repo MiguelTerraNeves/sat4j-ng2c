@@ -30,6 +30,8 @@
 package org.sat4j.pb.constraints;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_INTERNAL;
+import static org.sat4j.GlobalDefs.ANNOTATE_LEARNED;
 
 import org.sat4j.minisat.core.Constr;
 import org.sat4j.minisat.core.ILits;
@@ -50,7 +52,7 @@ public class UnitBinaryHTClausePBConstructor implements IClauseConstructor {
             return null;
         }
         if (v.size() == 1) {
-            return USE_NG2C ? new @Gen UnitClausePB(v.last(), voc) : new UnitClausePB(v.last(), voc);
+            return ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen UnitClausePB(v.last(), voc) : new UnitClausePB(v.last(), voc);
         }
         if (v.size() == 2) {
             return OriginalBinaryClausePB.brandNewClause(solver, voc, v);
@@ -60,12 +62,12 @@ public class UnitBinaryHTClausePBConstructor implements IClauseConstructor {
 
     public Constr constructLearntClause(ILits voc, IVecInt literals) {
         if (literals.size() == 1) {
-            return USE_NG2C ? new @Gen UnitClausePB(literals.last(), voc) : new UnitClausePB(literals.last(), voc);
+            return ANNOTATE_LEARNED ? new @Gen UnitClausePB(literals.last(), voc) : new UnitClausePB(literals.last(), voc);
         }
         if (literals.size() == 2) {
-            return USE_NG2C ? new @Gen LearntBinaryClausePB(literals, voc) : new LearntBinaryClausePB(literals, voc);
+            return ANNOTATE_LEARNED ? new @Gen LearntBinaryClausePB(literals, voc) : new LearntBinaryClausePB(literals, voc);
         }
-        return USE_NG2C ? new @Gen LearntHTClausePB(literals, voc) : new LearntHTClausePB(literals, voc);
+        return ANNOTATE_LEARNED ? new @Gen LearntHTClausePB(literals, voc) : new LearntHTClausePB(literals, voc);
     }
 
 }

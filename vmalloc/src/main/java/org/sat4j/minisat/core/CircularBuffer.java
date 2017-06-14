@@ -30,6 +30,7 @@
 package org.sat4j.minisat.core;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_SOLVER_STRUCTS;
 
 import java.io.Serializable;
 
@@ -52,7 +53,7 @@ public class CircularBuffer implements Serializable {
     private boolean full = false;
 
     public CircularBuffer(int capacity) {
-        this.values = USE_NG2C ? new @Gen int[capacity] : new int[capacity];
+        this.values = ANNOTATE_SOLVER_STRUCTS ? new @Gen int[capacity] : new int[capacity];
     }
 
     public void push(int value) {

@@ -1,6 +1,7 @@
 package vmalloc;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_SOLVER_STRUCTS;
 
 import java.io.File;
 import java.io.IOException;
@@ -181,8 +182,8 @@ public class Utils {
 
     public static Map<Integer, Integer> makePhysicalMachineIDtoIndexMap_core(PhysicalMachineVec pms, Map<Integer, Integer> pm_id_to_idx) {
         for (int i = 0; i < pms.size(); ++i) {
-            pm_id_to_idx.put(USE_NG2C ? new @Gen Integer(pms.get(i).getID()) : new Integer(pms.get(i).getID()),
-                             USE_NG2C ? new @Gen Integer(i) : new Integer(i));
+            pm_id_to_idx.put(ANNOTATE_SOLVER_STRUCTS ? new @Gen Integer(pms.get(i).getID()) : new Integer(pms.get(i).getID()),
+                             ANNOTATE_SOLVER_STRUCTS ? new @Gen Integer(i) : new Integer(i));
         }
         return pm_id_to_idx;
     }
@@ -190,12 +191,12 @@ public class Utils {
         return makePhysicalMachineIDtoIndexMap_core(pms, new HashMap<Integer, Integer>());
     }
     public static Map<Integer, Integer> makePhysicalMachineIDtoIndexMap_Gen(PhysicalMachineVec pms) {
-        return makePhysicalMachineIDtoIndexMap_core(pms, USE_NG2C ? new @Gen HashMap<Integer, Integer>() : new HashMap<Integer, Integer>());
+        return makePhysicalMachineIDtoIndexMap_core(pms, ANNOTATE_SOLVER_STRUCTS ? new @Gen HashMap<Integer, Integer>() : new HashMap<Integer, Integer>());
     }
     
     public static Map<String, Integer> makeVirtualMachineIDtoIndexMap_core(VirtualMachineVec vms, Map<String, Integer> vm_id_to_idx) {
         for (int i = 0; i < vms.size(); ++i) {
-            vm_id_to_idx.put(vms.get(i).getID(), USE_NG2C ? new @Gen Integer(i) : new Integer(i));
+            vm_id_to_idx.put(vms.get(i).getID(), ANNOTATE_SOLVER_STRUCTS ? new @Gen Integer(i) : new Integer(i));
         }
         return vm_id_to_idx;
     }
@@ -203,7 +204,7 @@ public class Utils {
         return makeVirtualMachineIDtoIndexMap_core(vms, new HashMap<String, Integer>());
     }
     public static Map<String, Integer> makeVirtualMachineIDtoIndexMap_Gen(VirtualMachineVec vms) {
-        return makeVirtualMachineIDtoIndexMap_core(vms, USE_NG2C ? new @Gen HashMap<String, Integer>() : new HashMap<String, Integer>());
+        return makeVirtualMachineIDtoIndexMap_core(vms, ANNOTATE_SOLVER_STRUCTS ? new @Gen HashMap<String, Integer>() : new HashMap<String, Integer>());
     }
     
     public static boolean allocationIsValid(PhysicalMachineVec pms,

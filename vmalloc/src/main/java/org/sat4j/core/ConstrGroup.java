@@ -30,6 +30,7 @@
 package org.sat4j.core;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_INTERNAL;
 
 import java.util.Iterator;
 
@@ -47,7 +48,7 @@ import org.sat4j.specs.IVec;
  */
 public class ConstrGroup implements IConstr {
 
-    private final IVec<IConstr> constrs = USE_NG2C ? new @Gen Vec<IConstr>() : new Vec<IConstr>(); 
+    private final IVec<IConstr> constrs = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen Vec<IConstr>() : new Vec<IConstr>(); 
     private final boolean disallowNullConstraints;
 
     /**

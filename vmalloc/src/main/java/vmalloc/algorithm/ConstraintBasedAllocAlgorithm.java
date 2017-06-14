@@ -1,6 +1,7 @@
 package vmalloc.algorithm;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_EXTERNAL;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -97,7 +98,7 @@ public abstract class ConstraintBasedAllocAlgorithm extends AllocAlgorithm {
     }
 
     protected IVecInt newVarsForPMs(ConstraintSolver solver, PhysicalMachineVec pms) {
-        IVecInt pm_vars = USE_NG2C ? new @Gen VecInt() : new VecInt();
+        IVecInt pm_vars = ANNOTATE_CONSTRAINTS_EXTERNAL ? new @Gen VecInt() : new VecInt();
         int nvars = solver.nVars();
         solver.newVars(pms.size());
         for (int i = 1; i <= pms.size(); ++i) {
@@ -109,10 +110,10 @@ public abstract class ConstraintBasedAllocAlgorithm extends AllocAlgorithm {
     protected IVec<IVecInt> newVarsForVMs(ConstraintSolver solver,
                                           PhysicalMachineVec pms,
                                           VirtualMachineVec vms) {
-        IVec<IVecInt> vm_vars = USE_NG2C ? new @Gen Vec<IVecInt>() : new Vec<IVecInt>();
+        IVec<IVecInt> vm_vars = ANNOTATE_CONSTRAINTS_EXTERNAL ? new @Gen Vec<IVecInt>() : new Vec<IVecInt>();
         int new_vars = 0, nvars = solver.nVars();
         for (int i = 0; i < vms.size(); ++i) {
-            vm_vars.push(USE_NG2C ? new @Gen VecInt() : new VecInt());
+            vm_vars.push(ANNOTATE_CONSTRAINTS_EXTERNAL ? new @Gen VecInt() : new VecInt());
             for (int j = 0; j < pms.size(); ++j) {
                 vm_vars.get(i).push(++new_vars + nvars);
             }
@@ -124,7 +125,7 @@ public abstract class ConstraintBasedAllocAlgorithm extends AllocAlgorithm {
     protected IVec<IVec<IVecInt>> newVarsForJobs(ConstraintSolver solver,
                                                  PhysicalMachineVec pms,
                                                  JobVec jobs) {
-        IVec<IVec<IVecInt>> job_vars = USE_NG2C ? new @Gen Vec<IVec<IVecInt>>() : new Vec<IVec<IVecInt>>();
+        IVec<IVec<IVecInt>> job_vars = ANNOTATE_CONSTRAINTS_EXTERNAL ? new @Gen Vec<IVec<IVecInt>>() : new Vec<IVec<IVecInt>>();
         for (int i = 0; i < jobs.size(); ++i) {
             job_vars.push(newVarsForVMs(solver, pms, jobs.get(i).virtualMachinesAsVec()));
             assert(jobs.get(i).nVirtualMachines() == job_vars.get(i).size());

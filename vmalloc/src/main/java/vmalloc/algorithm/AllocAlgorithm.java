@@ -1,6 +1,7 @@
 package vmalloc.algorithm;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_SOLVER_STRUCTS;
 
 import java.io.File;
 import java.io.IOException;
@@ -308,19 +309,19 @@ public abstract class AllocAlgorithm {
     protected AllocAlgorithm(VMCwMProblem instance, VMCwMProblem.Encoding encoding) {
         this.instance = instance;
         this.instance.setEncoding(encoding);
-        this.solutions = USE_NG2C ? new @Gen NondominatedPopulation() : new NondominatedPopulation();
-        this.results = USE_NG2C ? new @Gen LinkedList<NondominatedPopulation>() : new LinkedList<NondominatedPopulation>();
+        this.solutions = ANNOTATE_SOLVER_STRUCTS ? new @Gen NondominatedPopulation() : new NondominatedPopulation();
+        this.results = ANNOTATE_SOLVER_STRUCTS ? new @Gen LinkedList<NondominatedPopulation>() : new LinkedList<NondominatedPopulation>();
         ProblemFactory.getInstance().addProvider(
-                USE_NG2C ? new @Gen VWCwMProblemProvider(this.instance.getPhysicalMachines(),
-                                                         this.instance.getJobs(),
-                                                         this.instance.getMappings(),
-                                                         this.instance.getMaxMigrationPercentile(),
-                                                         encoding)
-                         : new VWCwMProblemProvider(this.instance.getPhysicalMachines(),
-                                                    this.instance.getJobs(),
-                                                    this.instance.getMappings(),
-                                                    this.instance.getMaxMigrationPercentile(),
-                                                    encoding));
+                ANNOTATE_SOLVER_STRUCTS ? new @Gen VWCwMProblemProvider(this.instance.getPhysicalMachines(),
+                                                                        this.instance.getJobs(),
+                                                                        this.instance.getMappings(),
+                                                                        this.instance.getMaxMigrationPercentile(),
+                                                                        encoding)
+                                        : new VWCwMProblemProvider(this.instance.getPhysicalMachines(),
+                                                                   this.instance.getJobs(),
+                                                                   this.instance.getMappings(),
+                                                                   this.instance.getMaxMigrationPercentile(),
+                                                                   encoding));
     }
 
     public void setTimeout(long timeout) { this.timeout = timeout; }

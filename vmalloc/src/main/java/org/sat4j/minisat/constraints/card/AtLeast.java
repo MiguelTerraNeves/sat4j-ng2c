@@ -30,6 +30,7 @@
 package org.sat4j.minisat.constraints.card;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_INTERNAL;
 
 import java.io.Serializable;
 
@@ -75,7 +76,7 @@ public class AtLeast implements Propagatable, Constr, Undoable, Serializable {
         this.maxUnsatisfied = ps.size() - degree;
         this.voc = voc;
         this.counter = 0;
-        this.lits = USE_NG2C ? new @Gen int[ps.size()] : new int[ps.size()];
+        this.lits = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen int[ps.size()] : new int[ps.size()];
         ps.moveTo(this.lits);
     }
 
@@ -132,9 +133,9 @@ public class AtLeast implements Propagatable, Constr, Undoable, Serializable {
             IVecInt ps, int n) throws ContradictionException {
         int degree = niceParameters(s, voc, ps, n);
         if (degree == 0) {
-            return USE_NG2C ? new @Gen UnitClauses(ps) : new UnitClauses(ps);
+            return ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen UnitClauses(ps) : new UnitClauses(ps);
         }
-        Constr constr = USE_NG2C ? new @Gen AtLeast(voc, ps, degree) : new AtLeast(voc, ps, degree);
+        Constr constr = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen AtLeast(voc, ps, degree) : new AtLeast(voc, ps, degree);
         constr.register();
         return constr;
     }

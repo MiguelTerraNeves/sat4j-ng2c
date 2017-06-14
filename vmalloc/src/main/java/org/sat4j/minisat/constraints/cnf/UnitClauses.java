@@ -30,6 +30,7 @@
 package org.sat4j.minisat.constraints.cnf;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_CONSTRAINTS_INTERNAL;
 
 import org.sat4j.minisat.core.Constr;
 import org.sat4j.specs.IVecInt;
@@ -43,7 +44,7 @@ public class UnitClauses implements Constr {
     protected final int[] literals;
 
     public UnitClauses(IVecInt values) {
-        this.literals = USE_NG2C ? new @Gen int[values.size()] : new int[values.size()];
+        this.literals = ANNOTATE_CONSTRAINTS_INTERNAL ? new @Gen int[values.size()] : new int[values.size()];
         values.copyTo(this.literals);
     }
 

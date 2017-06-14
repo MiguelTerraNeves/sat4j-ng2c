@@ -1,6 +1,7 @@
 package vmalloc.algorithm;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_SOLVER_STRUCTS;
 
 import org.sat4j.core.Vec;
 import org.sat4j.specs.ContradictionException;
@@ -37,7 +38,7 @@ public class ParetoCLD extends MultiObjectiveConstraintBasedAllocAlgorithm {
         printElapsedTime();
         IVecInt undef_fmls = buildUndefFormulas();
         boolean mcs_exists = false, next_mcs = false;
-        IVec<ConstraintID> to_remove = USE_NG2C ? new @Gen Vec<ConstraintID>() : new Vec<ConstraintID>();
+        IVec<ConstraintID> to_remove = ANNOTATE_SOLVER_STRUCTS ? new @Gen Vec<ConstraintID>() : new Vec<ConstraintID>();
         int perm_gen;
         if (USE_NG2C) {
             perm_gen = System.getAllocGen();

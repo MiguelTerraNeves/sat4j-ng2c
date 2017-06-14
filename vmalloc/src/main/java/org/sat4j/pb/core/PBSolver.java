@@ -30,6 +30,7 @@
 package org.sat4j.pb.core;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_SOLVER_STRUCTS;
 
 import java.math.BigInteger;
 import java.util.HashSet;
@@ -74,7 +75,7 @@ public abstract class PBSolver extends Solver<PBDataStructureFactory> implements
     public PBSolver(LearningStrategy<PBDataStructureFactory> learner,
             PBDataStructureFactory dsf, IOrder order, RestartStrategy restarter) {
         super(learner, dsf, order, restarter);
-        this.stats = USE_NG2C ? new @Gen PBSolverStats() : new PBSolverStats();
+        this.stats = ANNOTATE_SOLVER_STRUCTS ? new @Gen PBSolverStats() : new PBSolverStats();
         initStats(this.stats);
     }
 
@@ -82,7 +83,7 @@ public abstract class PBSolver extends Solver<PBDataStructureFactory> implements
             PBDataStructureFactory dsf, SearchParams params, IOrder order,
             RestartStrategy restarter) {
         super(learner, dsf, params, order, restarter);
-        this.stats = USE_NG2C ? new @Gen PBSolverStats() : new PBSolverStats();
+        this.stats = ANNOTATE_SOLVER_STRUCTS ? new @Gen PBSolverStats() : new PBSolverStats();
         initStats(this.stats);
     }
 
@@ -270,7 +271,7 @@ public abstract class PBSolver extends Solver<PBDataStructureFactory> implements
         }
 
         public void init() {
-            this.inObjectiveFunction = USE_NG2C ? new @Gen boolean[nVars() + 1] : new boolean[nVars() + 1];
+            this.inObjectiveFunction = ANNOTATE_SOLVER_STRUCTS ? new @Gen boolean[nVars() + 1] : new boolean[nVars() + 1];
             if (PBSolver.this.objf == null) {
                 throw new IllegalStateException(
                         "The strategy does not make sense if there is no objective function");

@@ -1,6 +1,8 @@
 package vmalloc.evolutionary;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_INSTANCE;
+import static org.sat4j.GlobalDefs.ANNOTATE_SOLUTIONS;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -88,10 +90,10 @@ public class VMCwMProblem extends AbstractProblem {
     
     private VariableEncoding makeEncoding(Encoding encoding) {
         if (encoding == Encoding.INTEGER) {
-            return USE_NG2C ? new @Gen IntegerEncoding() : new IntegerEncoding();
+            return ANNOTATE_INSTANCE ? new @Gen IntegerEncoding() : new IntegerEncoding();
         }
         else if (encoding == Encoding.BINARY_INTEGER) {
-            return USE_NG2C ? new @Gen BinaryIntegerEncoding() : new BinaryIntegerEncoding();
+            return ANNOTATE_INSTANCE ? new @Gen BinaryIntegerEncoding() : new BinaryIntegerEncoding();
         }
         throw new InvalidEncodingException();
     }
@@ -136,7 +138,7 @@ public class VMCwMProblem extends AbstractProblem {
     }
     
     private static IVec<VirtualMachineVec> retrieveAntiColocatableVirtualMachines(JobVec jobs) {
-        IVec<VirtualMachineVec> anti_coloc_vms = USE_NG2C ? new @Gen Vec<VirtualMachineVec>() : new Vec<VirtualMachineVec>();
+        IVec<VirtualMachineVec> anti_coloc_vms = ANNOTATE_INSTANCE ? new @Gen Vec<VirtualMachineVec>() : new Vec<VirtualMachineVec>();
         for (int i = 0; i < jobs.size(); ++i) {
             Job job = jobs.get(i);
             VirtualMachineVec job_anti_coloc_vms = job.getAntiColocatableVirtualMachines();
@@ -148,7 +150,7 @@ public class VMCwMProblem extends AbstractProblem {
     }
     
     private static VirtualMachineVec retrievePlatformConstrainedVirtualMachines(VirtualMachineVec vms) {
-        VirtualMachineVec plat_constrained_vms = USE_NG2C ? new @Gen VirtualMachineVec() : new VirtualMachineVec();
+        VirtualMachineVec plat_constrained_vms = ANNOTATE_INSTANCE ? new @Gen VirtualMachineVec() : new VirtualMachineVec();
         for (int i = 0; i < vms.size(); ++i) {
             if (vms.get(i).getUnallowedPhysicalMachines().size() > 0) {
                 plat_constrained_vms.push(vms.get(i));
@@ -169,7 +171,7 @@ public class VMCwMProblem extends AbstractProblem {
     
     private void ensureConstraintViolation(Solution sol) {
         if (!sol.hasAttribute(VIOLATION_ATR)) {
-            sol.setAttribute(VIOLATION_ATR, USE_NG2C ? new @Gen Double(Utils.sum(sol.getConstraints())) : new Double(Utils.sum(sol.getConstraints())));
+            sol.setAttribute(VIOLATION_ATR, ANNOTATE_SOLUTIONS ? new @Gen Double(Utils.sum(sol.getConstraints())) : new Double(Utils.sum(sol.getConstraints())));
         }
     }
     
@@ -380,12 +382,12 @@ public class VMCwMProblem extends AbstractProblem {
 
     @Override
     public Solution newSolution() {
-        Solution solution = USE_NG2C ? new @Gen Solution(getNumberOfVariables(),
-                                                         getNumberOfObjectives(),
-                                                         getNumberOfConstraints()) :
-                                       new Solution(getNumberOfVariables(),
-                                                    getNumberOfObjectives(),
-                                                    getNumberOfConstraints());
+        Solution solution = ANNOTATE_SOLUTIONS ? new @Gen Solution(getNumberOfVariables(),
+                                                                   getNumberOfObjectives(),
+                                                                   getNumberOfConstraints()) :
+                                                 new Solution(getNumberOfVariables(),
+                                                              getNumberOfObjectives(),
+                                                              getNumberOfConstraints());
         for (int i = 0; i < getNumberOfVariables(); ++i) {
             solution.setVariable(i, makeVariable());
         }

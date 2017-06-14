@@ -1,6 +1,7 @@
 package vmalloc.domain;
 
 import static org.sat4j.GlobalDefs.USE_NG2C;
+import static org.sat4j.GlobalDefs.ANNOTATE_INSTANCE;
 
 import java.math.BigInteger;
 
@@ -49,7 +50,7 @@ public class VirtualMachine extends Machine {
         this.job_id = job_id;
         this.vm_idx = vm_idx;
         this.anti_coloc = anti_coloc;
-        this.unallowed_pms = USE_NG2C ? new @Gen PhysicalMachineVec() : new PhysicalMachineVec();
+        this.unallowed_pms = ANNOTATE_INSTANCE ? new @Gen PhysicalMachineVec() : new PhysicalMachineVec();
     }
     
     /**
